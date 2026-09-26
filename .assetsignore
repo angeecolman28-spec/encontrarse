@@ -3,6 +3,7 @@
 .git
 node_modules
 src
+OTRA
 wrangler.jsonc
 .assetsignore
 .gitignore
