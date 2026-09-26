@@ -507,23 +507,28 @@
   function armarChip(el) {
     var score = (el.getAttribute("data-score") || "").trim();
     var url = (el.getAttribute("data-url") || "").trim();
-    if (!score || score === PENDING) return false;
+    var hayScore = score && score !== PENDING;
+    var hayUrl = url && url !== PENDING;
+    /* con puntaje o con enlace alcanza: sin ninguno de los dos no se muestra */
+    if (!hayScore && !hayUrl) return false;
 
     var partes = score.split("|");
     var fuente = el.getAttribute("data-rep") || el.getAttribute("data-rep-badge") || "";
 
     el.textContent = "";
-    var puntaje = document.createElement("span");
-    puntaje.className = "rep-score";
-    puntaje.textContent = partes[0].trim();
-    el.appendChild(puntaje);
+    if (hayScore) {
+      var puntaje = document.createElement("span");
+      puntaje.className = "rep-score";
+      puntaje.textContent = partes[0].trim();
+      el.appendChild(puntaje);
+    }
 
     var detalle = document.createElement("span");
     detalle.className = "rep-detalle";
-    detalle.textContent = textoResenas(partes[1], fuente);
+    detalle.textContent = hayScore ? textoResenas(partes[1], fuente) : "Ver en " + (NOMBRE_PLATAFORMA[fuente] || fuente);
     el.appendChild(detalle);
 
-    if (url && url !== PENDING) {
+    if (hayUrl) {
       el.setAttribute("href", url);
     } else if (el.tagName === "A") {
       el.removeAttribute("target");
@@ -633,8 +638,7 @@
 
   function setupQuote(form) {
     var DAY = 86400000;
-    var SEASONS = ["temporada baja", "temporada media", "temporada alta", "Año Nuevo"];
-    var config = { minNoches: 2, especiales: [] };
+    var config = { minNoches: 2, temporadas: [] };
     try {
       var raw = document.getElementById("quote-config");
       if (raw) config = JSON.parse(raw.textContent);
@@ -652,15 +656,9 @@
     var waNumber = form.getAttribute("data-wa");
     var mail = form.getAttribute("data-mail");
 
-    /* tarifas y capacidad se leen de cada ficha: una sola fuente de datos */
+    /* la capacidad se lee de cada ficha: una sola fuente de datos */
     var houses = {};
     panels.forEach(function (panel) {
-      var rates = Array.prototype.map.call(
-        panel.querySelectorAll('.price-table td[data-label="Por noche"]'),
-        function (td) {
-          return parseInt(td.textContent.replace(/\D/g, ""), 10) || 0;
-        }
-      );
       var capacity = 0;
       panel.querySelectorAll(".spec").forEach(function (spec) {
         var label = spec.querySelector(".spec-label");
@@ -669,7 +667,7 @@
           capacity = parseInt(value.getAttribute("data-to"), 10) || 0;
         }
       });
-      houses[panel.id] = { name: panel.getAttribute("aria-label"), rates: rates, capacity: capacity };
+      houses[panel.id] = { name: panel.getAttribute("aria-label"), capacity: capacity };
     });
 
     function parseDate(value) {
@@ -691,33 +689,21 @@
       return d.toLocaleDateString("es-UY", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
     }
 
-    function usd(n) {
-      return "USD " + n.toLocaleString("es-UY");
-    }
-
-    /* temporada de una noche segun las fechas de las tablas de tarifas */
-    function seasonOf(d) {
-      var m = d.getMonth() + 1;
-      if ((m === 12 && d.getDate() >= 27) || m === 1 || m === 2) return 2;
-      if (m === 12 || m === 3) return 1;
-      return 0;
-    }
-
-    function specialOf(d) {
-      var iso = toISO(d);
-      for (var i = 0; i < (config.especiales || []).length; i++) {
-        var s = config.especiales[i];
-        if (iso >= s.desde && iso <= s.hasta) return s;
+    /* Las temporadas se escriben como "MM-DD" y pueden cruzar el año
+       (26 dic al 31 ene). Sirven para avisar la estadia minima; el precio
+       exacto siempre se confirma al responder la consulta. */
+    function temporadaDe(d) {
+      var mmdd = toISO(d).slice(5);
+      var lista = config.temporadas || [];
+      for (var i = 0; i < lista.length; i++) {
+        var t = lista[i];
+        var cruzaAnio = t.desde > t.hasta;
+        var dentro = cruzaAnio
+          ? (mmdd >= t.desde || mmdd <= t.hasta)
+          : (mmdd >= t.desde && mmdd <= t.hasta);
+        if (dentro) return t;
       }
       return null;
-    }
-
-    function totalFor(house, nightsList) {
-      var total = 0;
-      nightsList.forEach(function (night) {
-        total += house.rates[night.season] || 0;
-      });
-      return total;
     }
 
     function today() {
@@ -736,105 +722,78 @@
         checkOut: parseDate(fOut.value),
         guests: parseInt(fGuests.value, 10) || 0,
         pet: fPet.checked,
-        nights: [],
-        total: null,
+        noches: 0,
+        temporadas: [],
+        minReq: config.minNoches || 1,
         warn: []
       };
+
       if (s.checkIn && s.checkOut) {
         var count = Math.round((s.checkOut - s.checkIn) / DAY);
         if (count <= 0) {
           s.warn.push("La salida tiene que ser después de la llegada.");
         } else {
-          var minReq = config.minNoches || 1;
-          var specialNames = [];
+          s.noches = count;
           for (var i = 0; i < count; i++) {
-            var night = addDays(s.checkIn, i);
-            var special = specialOf(night);
-            var season = special && typeof special.tarifa === "number" ? special.tarifa : seasonOf(night);
-            if (special) {
-              minReq = Math.max(minReq, special.minNoches || 0);
-              if (specialNames.indexOf(special.nombre) === -1) specialNames.push(special.nombre);
-            }
-            s.nights.push({ season: season });
+            var t = temporadaDe(addDays(s.checkIn, i));
+            if (!t) continue;
+            s.minReq = Math.max(s.minReq, t.minNoches || 0);
+            if (s.temporadas.indexOf(t.nombre) === -1) s.temporadas.push(t.nombre);
           }
-          if (count < minReq) {
+          if (count < s.minReq) {
             s.warn.push(
-              "Para estas fechas" + (specialNames.length ? " (" + specialNames.join(" y ") + ")" : "") +
-              " la estadía mínima es de " + minReq + " noches."
+              "Para estas fechas" + (s.temporadas.length ? " (" + s.temporadas.join(" y ") + ")" : "") +
+              " la estadía mínima es de " + s.minReq + " noches."
             );
           }
-          if (s.house) s.total = totalFor(s.house, s.nights);
         }
         if (s.checkIn < today()) s.warn.push("La fecha de llegada ya pasó.");
       }
+
       if (s.house && s.guests > s.house.capacity) {
         s.warn.push(s.house.name + " recibe hasta " + s.house.capacity + " huéspedes.");
       }
       return s;
     }
 
-    function breakdown(s) {
-      var counts = {};
-      s.nights.forEach(function (n) {
-        counts[n.season] = (counts[n.season] || 0) + 1;
-      });
-      return Object.keys(counts)
-        .sort()
-        .map(function (k) {
-          return counts[k] + " × " + usd(s.house.rates[k]) + " (" + SEASONS[k] + ")";
-        })
-        .join(" + ");
-    }
-
     function message(s) {
       var lines = ["¡Hola! Quisiera consultar disponibilidad en Encontrarse.", ""];
       lines.push("Casa: " + (s.house ? s.houseLabel : "cualquiera que esté libre"));
-      if (s.checkIn && s.checkOut && s.nights.length) {
+      if (s.noches) {
         lines.push("Llegada: " + fmtDate(s.checkIn));
-        lines.push("Salida: " + fmtDate(s.checkOut) + " (" + s.nights.length + (s.nights.length === 1 ? " noche)" : " noches)"));
+        lines.push("Salida: " + fmtDate(s.checkOut) + " (" + s.noches + (s.noches === 1 ? " noche)" : " noches)"));
       } else {
         lines.push("Fechas: todavía flexibles");
       }
       if (s.guests) lines.push("Huéspedes: " + s.guests);
       if (s.pet) lines.push("Viajamos con mascota");
-      if (s.total) lines.push("Estimado de la web: " + usd(s.total));
       return lines.join("\n");
     }
 
     function render() {
       var s = read();
-      var n = s.nights.length;
-      fGuests.max = s.house ? s.house.capacity : 8;
+      fGuests.max = s.house ? s.house.capacity : 6;
 
-      if (!n) {
-        outTotal.textContent = "Elegí las fechas para ver un estimado.";
+      if (!s.noches) {
+        outTotal.textContent = "Elegí las fechas y te confirmamos el total.";
         outDetail.hidden = true;
-      } else if (s.house) {
-        outTotal.innerHTML = "";
-        var strong = document.createElement("strong");
-        strong.textContent = usd(s.total);
-        outTotal.appendChild(strong);
-        outTotal.appendChild(document.createTextNode(" estimado · " + n + (n === 1 ? " noche" : " noches")));
-        outDetail.textContent = breakdown(s);
-        outDetail.hidden = false;
       } else {
-        var candidatas = Object.keys(houses).filter(function (id) {
-          return !s.guests || houses[id].capacity >= s.guests;
-        });
-        var libres = candidatas.filter(function (id) {
-          return !hayChoque(id, fIn.value, fOut.value);
-        });
-        var totals = candidatas.map(function (id) {
-          return totalFor(houses[id], s.nights);
-        });
-        outTotal.textContent = n + (n === 1 ? " noche" : " noches");
-        if (totals.length) {
-          outDetail.textContent =
-            "Entre " + usd(Math.min.apply(null, totals)) + " y " + usd(Math.max.apply(null, totals)) +
-            " según la casa." + textoLibres(libres, candidatas);
+        outTotal.textContent = s.noches + (s.noches === 1 ? " noche" : " noches") +
+          " · del " + fmtDate(s.checkIn) + " al " + fmtDate(s.checkOut);
+
+        var partes = [];
+        if (s.temporadas.length) partes.push(s.temporadas.join(" y "));
+        if (s.house) {
+          partes.push(hayChoque(s.houseId, fIn.value, fOut.value) ? "figura ocupada" : "figura libre");
         } else {
-          outDetail.textContent = "Ninguna casa recibe " + s.guests + " huéspedes: escribinos y lo vemos.";
+          var libres = Object.keys(houses).filter(function (id) {
+            return (!s.guests || houses[id].capacity >= s.guests) && !hayChoque(id, fIn.value, fOut.value);
+          });
+          partes.push(textoLibres(libres, Object.keys(houses).filter(function (id) {
+            return !s.guests || houses[id].capacity >= s.guests;
+          })));
         }
+        outDetail.textContent = partes.join(" · ");
         outDetail.hidden = false;
       }
 
@@ -867,7 +826,7 @@
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       var s = render();
-      if (s.checkIn && s.checkOut && !s.nights.length) {
+      if (s.checkIn && s.checkOut && !s.noches) {
         fOut.focus();
         return;
       }
@@ -881,7 +840,7 @@
       }
     });
 
-    /* "Calcular el total" desde cada ficha deja la casa elegida */
+    /* el enlace de cada ficha deja esa casa elegida */
     document.querySelectorAll("[data-quote-house]").forEach(function (link) {
       link.addEventListener("click", function () {
         fCasa.value = link.getAttribute("data-quote-house");
@@ -890,7 +849,7 @@
     });
 
     render();
-    /* al llegar la disponibilidad se vuelve a dibujar el estimado */
+    /* al llegar la disponibilidad se vuelve a dibujar el resumen */
     alDisponer.push(render);
   }
 

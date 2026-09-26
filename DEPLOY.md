@@ -44,21 +44,20 @@ El KV ya queda vinculado por `wrangler.jsonc`: no hay que tocarlo a mano.
 
 ```json
 {
-  "casa-la-viuda": {
-    "nombre": "Casa La Viuda",
+  "casa-ohana": {
+    "nombre": "Ohana",
     "fuentes": {
       "airbnb": "https://www.airbnb.com/calendar/ical/XXXX.ics?s=XXXX",
       "booking": "https://ical.booking.com/v1/export?t=XXXX",
       "calendar": "https://calendar.google.com/calendar/ical/XXXX/private-XXXX/basic.ics"
     }
   },
-  "casa-playa-grande": { "nombre": "Casa Playa Grande", "fuentes": {} },
-  "casa-del-pueblo": { "nombre": "Casa del Pueblo", "fuentes": {} },
-  "casa-dunas-chuy": { "nombre": "Casa Dunas", "fuentes": {} }
+  "casa-dos-amores": { "nombre": "Dos Amores", "fuentes": {} },
+  "casa-solale": { "nombre": "Solale", "fuentes": {} }
 }
 ```
 
-Las claves (`casa-la-viuda`, etc.) tienen que coincidir con los `id` de cada ficha en `index.html`.
+Las claves (`casa-ohana`, etc.) tienen que coincidir con los `id` de cada ficha en `index.html`.
 
 **Los enlaces `.ics` son direcciones secretas:** quien las tenga ve tus fechas bloqueadas. Por eso van como secreto y nunca en el repositorio.
 
