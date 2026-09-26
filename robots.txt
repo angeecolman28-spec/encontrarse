@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://encontrarse.uy/sitemap.xml
+Sitemap: https://encontrarse.puntadeldiablo.workers.dev/sitemap.xml
