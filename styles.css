@@ -3909,3 +3909,10 @@ html.no-js .hero-actions {
     max-width: 34rem;
   }
 }
+
+/* el calendario es lo primero que se mira en cada ficha: se destaca */
+.side-box--cal {
+  background: var(--sand);
+  border-color: transparent;
+  box-shadow: inset 3px 0 0 var(--brand-blue);
+}
