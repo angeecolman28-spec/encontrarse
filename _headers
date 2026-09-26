@@ -1,0 +1,24 @@
+# Los nombres de archivo no llevan hash, asi que no pueden ser "immutable":
+# si lo fueran, quien ya visito el sitio seguiria viendo el CSS y el JS
+# viejos despues de cada deploy. Se revalidan en cada visita (respuesta 304,
+# sin descarga) y ademas index.html los pide con ?v=N: subir ese numero
+# fuerza la actualizacion inmediata.
+/styles.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/main.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Content-Security-Policy: solo se permite lo que el sitio usa de verdad.
+#  - script-src: main.js y el unico script en linea (el que cambia no-js por js).
+#    Si se edita ese script, hay que recalcular su hash sha256 o el sitio pierde
+#    las animaciones y el formulario.
+#  - style-src sin 'unsafe-inline': no usar atributos style="" ni <style> en el HTML.
+#  - img-src incluye Unsplash mientras las fotos sigan viniendo de ahi.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-9h4+QNjOt3CgNFpdn6iqbeII0Hyi4PqjGT1QhTZFYlc='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

@@ -1,0 +1,27 @@
+{
+  "estado": "ejemplo",
+  "actualizado": "2026-09-26T12:00:00Z",
+  "_nota": "Datos inventados para ver el calendario antes de conectar Airbnb, Booking y Google Calendar. La web avisa en pantalla que son de ejemplo. Cuando el Worker este andando, /api/disponibilidad reemplaza este archivo.",
+  "casas": {
+    "casa-la-viuda": {
+      "nombre": "Casa La Viuda",
+      "ocupado": [["2026-10-03", "2026-10-06"], ["2026-11-14", "2026-11-18"], ["2026-12-27", "2027-01-04"]],
+      "fuentes": { "airbnb": { "estado": "ok" }, "booking": { "estado": "ok" } }
+    },
+    "casa-playa-grande": {
+      "nombre": "Casa Playa Grande",
+      "ocupado": [["2026-09-28", "2026-10-02"], ["2026-10-10", "2026-10-12"], ["2026-12-20", "2027-01-06"]],
+      "fuentes": { "airbnb": { "estado": "ok" }, "booking": { "estado": "ok" } }
+    },
+    "casa-del-pueblo": {
+      "nombre": "Casa del Pueblo",
+      "ocupado": [["2026-11-06", "2026-11-09"]],
+      "fuentes": { "airbnb": { "estado": "ok" }, "booking": { "estado": "ok" } }
+    },
+    "casa-dunas-chuy": {
+      "nombre": "Casa Dunas",
+      "ocupado": [["2026-10-17", "2026-10-25"], ["2026-12-28", "2027-01-02"]],
+      "fuentes": { "airbnb": { "estado": "ok" }, "booking": { "estado": "ok" } }
+    }
+  }
+}

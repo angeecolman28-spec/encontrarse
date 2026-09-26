@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 316" role="img" aria-label="Encontrarse">
+  <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 312 V125 A118 118 0 0 1 242 125 V312 Z" stroke-width="7"/>
+    <g stroke-width="5.5">
+      <path d="M37 140 q13 -7.5 26 0 t26 0 t26 0 t26 0 t26 0 t26 0 t26 0"/>
+      <path d="M33 165 q13 -7.5 26 0 t26 0 t26 0 t26 0 t26 0 t26 0 t26 0"/>
+      <path d="M39 190 q13 -7.5 26 0 t26 0 t26 0 t26 0 t26 0 t26 0 t26 0"/>
+    </g>
+    <g stroke-width="4.5">
+      <path d="M12 306 C 34 280 56 250 84 214"/>
+      <path d="M84 214 C 78 196 84 182 96 172 C 100 188 96 202 84 214 Z"/>
+      <path d="M66 240 C 72 222 86 212 104 210 C 98 228 84 238 66 240 Z"/>
+      <path d="M60 246 C 46 232 42 214 46 200 C 60 212 64 228 60 246 Z"/>
+      <path d="M44 270 C 54 254 70 248 88 250 C 78 266 62 272 44 270 Z"/>
+      <path d="M36 278 C 22 266 16 250 18 234 C 32 246 38 262 36 278 Z"/>
+      <path d="M24 292 C 34 280 48 276 62 280 C 52 292 38 296 24 292 Z"/>
+    </g>
+  </g>
+  <circle cx="170" cy="83" r="27" fill="#FFFFFF"/>
+</svg>
