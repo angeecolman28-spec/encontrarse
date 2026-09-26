@@ -315,16 +315,9 @@
   var switchLinks = Array.prototype.slice.call(
     document.querySelectorAll("[data-house-switch] a[data-house]")
   );
-  var listLinks = Array.prototype.slice.call(
-    document.querySelectorAll("[data-house-list] a[data-house]")
+  var cardLinks = Array.prototype.slice.call(
+    document.querySelectorAll("[data-casas-grid] a[data-house]")
   );
-  var compareLinks = Array.prototype.slice.call(
-    document.querySelectorAll("[data-house-compare] a[data-house]")
-  );
-  var previewStack = document.querySelector("[data-house-preview]");
-  var previewImages = previewStack
-    ? Array.prototype.slice.call(previewStack.querySelectorAll("img"))
-    : [];
 
   /* Al mostrar un panel que estaba oculto, los observers nunca lo vieron:
      hay que revelar el contenido y disparar los contadores a mano. */
@@ -360,12 +353,6 @@
     switchLinks.forEach(function (a) {
       a.classList.toggle("is-on", a.getAttribute("data-house") === id);
     });
-    var index = houseIds.indexOf(id);
-    if (previewImages.length) {
-      previewImages.forEach(function (img, i) {
-        img.classList.toggle("active", i === index);
-      });
-    }
     return true;
   }
 
@@ -405,27 +392,13 @@
     }
   }
 
-  switchLinks.concat(listLinks, compareLinks).forEach(function (link) {
+  switchLinks.concat(cardLinks).forEach(function (link) {
     link.addEventListener("click", function (event) {
       var id = link.getAttribute("data-house");
       if (!id || houseIds.indexOf(id) === -1) return;
       event.preventDefault();
       goToHouse(id);
     });
-  });
-
-  /* vista previa de la lista al pasar el mouse o tabular */
-  listLinks.forEach(function (link) {
-    function setPreview() {
-      var index = parseInt(link.getAttribute("data-img"), 10);
-      var target = previewImages[index];
-      if (!target || target.classList.contains("active")) return;
-      previewImages.forEach(function (img) {
-        img.classList.toggle("active", img === target);
-      });
-    }
-    link.addEventListener("mouseenter", setPreview);
-    link.addEventListener("focus", setPreview);
   });
 
   window.addEventListener("hashchange", function () {
@@ -515,32 +488,75 @@
     sync();
   });
 
-  /* ------------------------- links de plataforma y puntajes pendientes */
+  /* ------------------------------------ reputacion: Airbnb y Booking
 
-  document.querySelectorAll("[data-plat]").forEach(function (link) {
-    var url = link.getAttribute("data-url");
-    if (!url || url === PENDING) {
-      link.remove();
-      return;
+     Cada ficha tiene data-score="4.92|47" (puntaje|cantidad de resenas) y
+     data-url con el enlace al anuncio. Mientras digan PENDIENTE no se
+     muestran: nunca se inventa un puntaje. */
+
+  var NOMBRE_PLATAFORMA = { airbnb: "Airbnb", booking: "Booking.com" };
+
+  function textoResenas(cantidad, fuente) {
+    var etiqueta = NOMBRE_PLATAFORMA[fuente] || fuente;
+    if (!cantidad) return etiqueta;
+    var n = parseInt(cantidad, 10);
+    if (!isFinite(n)) return etiqueta + " · " + cantidad;
+    return etiqueta + " · " + n + (n === 1 ? " reseña" : " reseñas");
+  }
+
+  function armarChip(el) {
+    var score = (el.getAttribute("data-score") || "").trim();
+    var url = (el.getAttribute("data-url") || "").trim();
+    if (!score || score === PENDING) return false;
+
+    var partes = score.split("|");
+    var fuente = el.getAttribute("data-rep") || el.getAttribute("data-rep-badge") || "";
+
+    el.textContent = "";
+    var puntaje = document.createElement("span");
+    puntaje.className = "rep-score";
+    puntaje.textContent = partes[0].trim();
+    el.appendChild(puntaje);
+
+    var detalle = document.createElement("span");
+    detalle.className = "rep-detalle";
+    detalle.textContent = textoResenas(partes[1], fuente);
+    el.appendChild(detalle);
+
+    if (url && url !== PENDING) {
+      el.setAttribute("href", url);
+    } else if (el.tagName === "A") {
+      el.removeAttribute("target");
+      el.classList.add("rep-chip--sinlink");
     }
-    link.setAttribute("href", url);
-  });
-
-  document.querySelectorAll("[data-plats]").forEach(function (box) {
-    if (box.querySelector("[data-plat]")) box.hidden = false;
-  });
-
-  /* data-rating="4.9|47 reseñas" — mientras diga PENDIENTE no se muestra */
-  document.querySelectorAll("[data-rating]").forEach(function (el) {
-    var raw = el.getAttribute("data-rating");
-    if (!raw || raw === PENDING) return;
-    var parts = raw.split("|");
-    var score = el.querySelector(".rating-score");
-    var count = el.querySelector(".rating-count");
-    if (score) score.textContent = "★ " + parts[0].trim();
-    if (count && parts[1]) count.textContent = parts[1].trim();
     el.hidden = false;
+    return true;
+  }
+
+  /* fichas de cada casa */
+  document.querySelectorAll("[data-rep-row]").forEach(function (fila) {
+    var visibles = 0;
+    fila.querySelectorAll("[data-rep]").forEach(function (chip) {
+      if (armarChip(chip)) visibles++;
+      else chip.remove();
+    });
+    if (visibles) fila.hidden = false;
   });
+
+  /* insignias generales de la seccion de resenas */
+  var insignias = 0;
+  document.querySelectorAll("[data-rep-badge]").forEach(function (badge) {
+    if (armarChip(badge)) insignias++;
+  });
+
+  var repSub = document.querySelector("[data-rep-sub]");
+  if (repSub) {
+    var texto = (repSub.getAttribute("data-rep-sub") || "").trim();
+    if (texto && texto !== PENDING) {
+      repSub.textContent = texto;
+      repSub.hidden = false;
+    }
+  }
 
   /* opiniones: cada cita se muestra solo si dejo de decir PENDIENTE */
   var voces = document.querySelector("[data-voces]");
@@ -549,7 +565,15 @@
       var quote = voz.querySelector("blockquote");
       if (!quote || quote.textContent.trim() === PENDING) voz.remove();
     });
-    if (voces.querySelector("[data-voz]")) voces.hidden = false;
+    var hayCitas = !!voces.querySelector("[data-voz]");
+    if (!hayCitas) voces.hidden = true;
+
+    var nota = document.querySelector("[data-resenas-nota]");
+    if (nota) nota.hidden = hayCitas;
+
+    /* sin citas y sin insignias no hay nada que mostrar */
+    var seccion = document.getElementById("resenas");
+    if (seccion && !hayCitas && !insignias) seccion.hidden = true;
   }
 
   /* datos estructurados del FAQ armados desde las preguntas visibles:
@@ -1086,11 +1110,9 @@
   /* --------------------------------- estado en la tabla comparativa */
 
   function pintarChips() {
-    document.querySelectorAll("[data-house-compare] tbody tr").forEach(function (fila) {
-      var link = fila.querySelector("a[data-house]");
-      var chip = fila.querySelector(".disp");
-      if (!link || !chip || !DISPO) return;
-      var casaId = link.getAttribute("data-house");
+    document.querySelectorAll("[data-disp]").forEach(function (chip) {
+      if (!DISPO) return;
+      var casaId = chip.getAttribute("data-disp");
       if (!DISPO.casas[casaId]) return;
 
       var hoy = isoHoy();

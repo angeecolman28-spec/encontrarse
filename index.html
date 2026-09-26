@@ -107,7 +107,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Sacramento&family=Unica+One&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=30">
+  <link rel="stylesheet" href="styles.css?v=33">
 </head>
 <body>
 
@@ -133,31 +133,27 @@
   Ademas:
     - Tarifas: cada casa tiene su tabla <table class="price-table">.
       Los valores actuales son de referencia, ajustar por casa y temporada.
-    - Fotos: portada, "La idea", Punta del Diablo y la franja del litoral ya
-      usan fotos reales (assets/img/, sacadas de la guia a su resolucion).
-      Siguen de Unsplash: Chuy, el cierre de reservas y las fichas de casas.
-    - Airbnb / Booking: cada casa tiene <a data-plat ... data-url="PENDIENTE">.
-      Cambiar PENDIENTE por la URL real y el boton aparece solo.
-      Mientras diga PENDIENTE, el boton queda oculto.
-    - Resenas: cada casa tiene <p class="rating" data-rating="PENDIENTE">.
-      Cambiar por el puntaje real, ej: data-rating="4.9|47 resenas".
-      Mientras diga PENDIENTE queda oculto. NO inventar puntajes.
+    - Fotos: la portada usa una foto real (assets/img/faro-*.jpg, sacada de la
+      guia). Las galerias de las casas y el cierre siguen con fotos de
+      Unsplash: reemplazar por fotos propias de cada casa.
+    - Resenas por casa: en cada ficha hay dos <a class="rep-chip" data-rep=...>
+      con data-score="4.92|47" (puntaje|cantidad) y data-url al anuncio.
+      Mientras digan PENDIENTE no se muestran. NO inventar puntajes.
     - Direccion en el JSON-LD y en el footer.
     - Disponibilidad: en la tabla "Comparar las casas" cada casa tiene
       <span class="disp">Consultar fechas</span>. Cambiar el texto y sumar
       una clase: disp--libre (verde), disp--pocas (dorado), disp--completa.
       Ej: <span class="disp disp--pocas">Quedan fechas en enero</span>
-    - Opiniones de huespedes: seccion id="voces". Cada <figure data-voz>
-      muestra su cita solo si el texto deja de decir PENDIENTE; la seccion
-      entera queda oculta mientras no haya ninguna. NO inventar opiniones.
+    - Seccion de resenas (id="resenas"):
+        * insignias generales: <a data-rep-badge="airbnb|booking" data-score=...>
+        * bajada: <p data-rep-sub="180 estadias verificadas">
+        * cada <figure data-voz> aparece cuando su cita deja de decir
+          PENDIENTE. NO inventar opiniones ni puntajes.
     - Formulario de consulta (id="quote"): el numero de WhatsApp y el mail
       estan en data-wa y data-mail. Las fechas de Ano Nuevo y Carnaval de
       cada temporada estan en <script id="quote-config">.
     - Mascotas por casa: en "Antes de venir" cada casa tiene
       <dd data-pets>Consultanos</dd>. Cambiar por "Si, avisando antes" o "No".
-    - Anfitrion (seccion id="trato"): <strong data-host-name>PENDIENTE</strong>
-      con el nombre real y data-src="PENDIENTE" con la ruta de la foto.
-      Mientras el nombre diga PENDIENTE la tarjeta queda oculta.
   ============================================================================
 -->
 
@@ -177,8 +173,8 @@
     </a>
 
     <nav class="nav" aria-label="Principal">
-      <a href="#idea">La idea</a>
       <a href="#casas">Las casas</a>
+      <a href="#resenas">Rese&ntilde;as</a>
       <a href="#mapa">C&oacute;mo llegar</a>
       <a href="#zona">La zona</a>
       <a href="#faq">Preguntas</a>
@@ -194,8 +190,8 @@
 
   <div class="overlay-menu" id="overlayMenu">
     <nav class="overlay-nav" aria-label="Principal móvil">
-      <a href="#idea"><span>01</span>La idea</a>
-      <a href="#casas"><span>02</span>Las casas</a>
+      <a href="#casas"><span>01</span>Las casas</a>
+      <a href="#resenas"><span>02</span>Rese&ntilde;as</a>
       <a href="#mapa"><span>03</span>C&oacute;mo llegar</a>
       <a href="#zona"><span>04</span>La zona</a>
       <a href="#faq"><span>05</span>Preguntas</a>
@@ -209,10 +205,9 @@
   </div>
 
   <main>
-
     <section class="hero" aria-label="Portada">
       <div class="hero-media">
-        <img src="assets/img/casa-exterior-1448.jpg" srcset="assets/img/casa-exterior-480.jpg 480w, assets/img/casa-exterior-768.jpg 768w, assets/img/casa-exterior-1100.jpg 1100w, assets/img/casa-exterior-1448.jpg 1448w" sizes="100vw" width="1448" height="1086" alt="Una de las casas de Encontrarse, de madera blanca entre pinos, sobre una loma con camino de arena" fetchpriority="high" decoding="async">
+        <img src="assets/img/faro-1448.jpg" srcset="assets/img/faro-480.jpg 480w, assets/img/faro-768.jpg 768w, assets/img/faro-1100.jpg 1100w, assets/img/faro-1448.jpg 1448w" sizes="100vw" width="1448" height="1086" alt="La costa de Punta del Diablo: playa, rocas y el faro sobre el Atl&aacute;ntico" fetchpriority="high" decoding="async">
         <span class="hero-scrim"></span>
       </div>
 
@@ -241,7 +236,7 @@
         <span>53°33′ O</span>
       </div>
 
-      <a class="scroll-cue" href="#idea" aria-label="Bajar a la siguiente sección">
+      <a class="scroll-cue" href="#casas" aria-label="Bajar a la siguiente sección">
         <span class="scroll-cue-line"></span>
         Bajar
       </a>
@@ -285,239 +280,99 @@
       </a>
     </nav>
 
-    <section class="idea section" id="idea">
-
-      <div class="idea-top">
-        <div class="idea-copy" data-reveal>
-          <p class="eyebrow eyebrow--ink">01 &mdash; La idea y los lugares</p>
-          <h2 class="h2">Menos casas,<br>m&aacute;s mar,<br>m&aacute;s <em>calma</em>.</h2>
-        </div>
-
-        <div class="idea-body" data-reveal data-delay="1">
-          <p class="lead">
-            Encontrarse nace de una convicci&oacute;n simple: en la costa uruguaya no
-            faltan alquileres; faltan casas elegidas con criterio, cuidadas como
-            propias y situadas donde la vista no tiene que esforzarse.
-          </p>
-          <p>
-            Curamos cada direcci&oacute;n por su luz, su materialidad y su silencio.
-            El resultado es un pu&ntilde;ado de casas con car&aacute;cter, repartidas entre dos
-            pueblos que son el mismo mar visto de dos maneras.
-          </p>
-          <figure class="brand-note">
-            <img src="assets/brand/isotipo.svg" alt="" width="56" height="71">
-            <figcaption>
-              <strong>Una ventana al mar.</strong>
-              Nuestro s&iacute;mbolo es una ventana abierta al paisaje de Punta del Diablo:
-              el mar, el sol y el monte. La idea de abrirse al lugar y encontrarse con uno mismo.
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-
-      <div class="idea-gallery" data-reveal>
-        <figure class="idea-shot idea-shot--wide frame frame--media">
-          <img src="assets/img/living-1100.jpg" srcset="assets/img/living-480.jpg 480w, assets/img/living-768.jpg 768w, assets/img/living-1100.jpg 1100w, assets/img/living-1304.jpg 1304w" sizes="(max-width: 920px) 92vw, 56vw" width="1304" height="978" alt="Living de madera blanca con sill&oacute;n, sillas de mimbre y comedor junto a la puerta al deck" loading="lazy" decoding="async">
-        </figure>
-        <figure class="idea-shot frame frame--media">
-          <img src="assets/img/detalle-velero-768.jpg" srcset="assets/img/detalle-velero-480.jpg 480w, assets/img/detalle-velero-768.jpg 768w, assets/img/detalle-velero-1086.jpg 1086w" sizes="(max-width: 920px) 44vw, 20vw" width="1086" height="1448" alt="Velero de madera de deriva y estante con copas sobre la pared de madera" loading="lazy" decoding="async">
-        </figure>
-        <figure class="idea-shot frame frame--media">
-          <img src="assets/img/pasillo-768.jpg" srcset="assets/img/pasillo-480.jpg 480w, assets/img/pasillo-768.jpg 768w, assets/img/pasillo-1086.jpg 1086w" sizes="(max-width: 920px) 44vw, 20vw" width="1086" height="1278" alt="Pasillo luminoso de madera que lleva a un cuarto con una planta junto a la ventana" loading="lazy" decoding="async">
-        </figure>
-      </div>
-
-      <div class="places" id="destinos">
-        <article class="place" data-reveal>
-          <div class="frame frame--media">
-            <img src="assets/img/faro-1100.jpg" srcset="assets/img/faro-480.jpg 480w, assets/img/faro-768.jpg 768w, assets/img/faro-1100.jpg 1100w, assets/img/faro-1448.jpg 1448w" sizes="(max-width: 920px) 92vw, 42vw" width="1448" height="1086" alt="Faro rojo y blanco sobre las rocas, con el mar abierto detr&aacute;s y pinos en primer plano" loading="lazy" decoding="async">
-          </div>
-          <div class="place-body">
-            <span class="place-num">N&ordm; 01 &middot; Rocha</span>
-            <h3 class="h3">Punta del Diablo</h3>
-            <p>
-              Un pueblo de pescadores que creci&oacute; sin prisa: calles de arena,
-              casas de madera y un horizonte que se gana caminando hasta el
-              Cerro de las Tunas.
-            </p>
-            <ul class="fact-list">
-              <li>Pueblo de pescadores artesanal</li>
-              <li>Surf y mar abierto en Playa Grande</li>
-              <li>Tres de nuestras cuatro casas</li>
-            </ul>
-            <a class="text-link" href="#casas">Ver las casas <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </article>
-
-        <article class="place" data-reveal data-delay="1">
-          <div class="frame frame--media">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&auto=format&fit=crop&w=1400" srcset="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&auto=format&fit=crop&w=1100 1100w, https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&auto=format&fit=crop&w=1600 1600w, https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&auto=format&fit=crop&w=2200 2200w" sizes="(max-width: 920px) 92vw, 42vw" alt="La playa de la Barra del Chuy" loading="lazy" decoding="async">
-          </div>
-          <div class="place-body">
-            <span class="place-num">N&ordm; 02 &middot; Frontera</span>
-            <h3 class="h3">Chuy</h3>
-            <p>
-              El &uacute;ltimo pueblo, donde Uruguay le da la mano a Brasil. Cielos
-              enormes, una playa que el ojo no abarca y ese aire de fin del
-              mundo que enamora.
-            </p>
-            <ul class="fact-list">
-              <li>Frontera seca junto a Brasil</li>
-              <li>Barra del Chuy y su playa infinita</li>
-              <li>Una casa, a pasos del centro</li>
-            </ul>
-            <a class="text-link" href="#casa-dunas-chuy">Ver Casa Dunas <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="band" data-parallax-section>
-      <div class="band-media" data-parallax="0.18">
-        <img src="assets/img/hamaca-vista-1086.jpg" srcset="assets/img/hamaca-vista-480.jpg 480w, assets/img/hamaca-vista-768.jpg 768w, assets/img/hamaca-vista-1086.jpg 1086w" sizes="100vw" width="1086" height="1448" decoding="async" alt="Hamaca paraguaya en el deck de madera, con el camino de arena, los pinos y el mar al fondo" loading="lazy">
-      </div>
-      <div class="band-overlay"></div>
-      <blockquote class="band-quote" data-reveal>
-        <img class="band-iso" src="assets/brand/isotipo-blanco.svg" alt="" width="64" height="81">
-        <span class="eyebrow band-eyebrow">El litoral</span>
-        <p class="band-text">Acá el tiempo se mide en mareas,<br>no en minutos.</p>
-      </blockquote>
-    </section>
-
     <section class="casas section" id="casas">
       <header class="section-head" data-reveal>
-        <p class="eyebrow eyebrow--ink">02 &mdash; Las casas</p>
+        <p class="eyebrow eyebrow--ink">01 &mdash; Las casas</p>
         <h2 class="h2">Cuatro casas, cuatro maneras<br>de <em>escuchar</em> el mar</h2>
         <p class="section-sub">No es un catálogo: es una colección. Cada casa se elige
         una por una, se habita y se cuida antes de ser compartida.</p>
         <a class="text-link" href="#casa-la-viuda">La casa destacada <span aria-hidden="true">→</span></a>
       </header>
 
-      <div class="casas-layout">
-        <div class="house-preview" data-house-preview aria-hidden="true">
-          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=1400" srcset="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=1100 1100w, https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=1600 1600w, https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=2200 2200w" sizes="(max-width: 920px) 92vw, 44vw" alt="Sala de estar c&aacute;lida con luz natural y texturas de madera" loading="lazy" decoding="async" class="active">
-          <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=1400" srcset="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=1100 1100w, https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=1600 1600w, https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=2200 2200w" sizes="(max-width: 920px) 92vw, 44vw" alt="Vista a&eacute;rea de la playa con oleaje visto desde la casa" loading="lazy" decoding="async">
-          <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=1400" srcset="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=1100 1100w, https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=1600 1600w, https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=2200 2200w" sizes="(max-width: 920px) 92vw, 44vw" alt="Casa c&eacute;ntrica con jard&iacute;n y mesa de madera al aire libre" loading="lazy" decoding="async">
-          <img src="https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=1400" srcset="https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=1100 1100w, https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=1600 1600w, https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=2200 2200w" sizes="(max-width: 920px) 92vw, 44vw" alt="Playa ancha con arena clara y cielo despejado en la frontera" loading="lazy" decoding="async">
-        </div>
-
-        <ul class="house-list" data-house-list>
-          <li>
-            <a href="#casa-la-viuda" data-img="0" data-house="casa-la-viuda">
-              <span class="house-num">N&ordm; 01</span>
-              <span class="house-name">Casa La Viuda</span>
-              <span class="house-meta">Punta del Diablo &middot; Playa de la Viuda</span>
-              <span class="house-tags">
-                <span class="tag">7 hu&eacute;spedes</span>
-                <span class="tag">3 dorm.</span>
-                <span class="tag tag--price">desde USD 120</span>
-              </span>
-              <span class="house-go" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-          <li>
-            <a href="#casa-playa-grande" data-img="1" data-house="casa-playa-grande">
-              <span class="house-num">N&ordm; 02</span>
-              <span class="house-name">Casa Playa Grande</span>
-              <span class="house-meta">Punta del Diablo &middot; Frente al mar abierto</span>
-              <span class="house-tags">
-                <span class="tag">8 hu&eacute;spedes</span>
-                <span class="tag">4 dorm.</span>
-                <span class="tag tag--price">desde USD 140</span>
-              </span>
-              <span class="house-go" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-          <li>
-            <a href="#casa-del-pueblo" data-img="2" data-house="casa-del-pueblo">
-              <span class="house-num">N&ordm; 03</span>
-              <span class="house-name">Casa del Pueblo</span>
-              <span class="house-meta">Punta del Diablo &middot; A dos cuadras del centro</span>
-              <span class="house-tags">
-                <span class="tag">6 hu&eacute;spedes</span>
-                <span class="tag">3 dorm.</span>
-                <span class="tag tag--price">desde USD 95</span>
-              </span>
-              <span class="house-go" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-          <li>
-            <a href="#casa-dunas-chuy" data-img="3" data-house="casa-dunas-chuy">
-              <span class="house-num">N&ordm; 04</span>
-              <span class="house-name">Casa Dunas</span>
-              <span class="house-meta">Chuy &middot; C&eacute;ntrica, a pasos de la frontera</span>
-              <span class="house-tags">
-                <span class="tag">7 hu&eacute;spedes</span>
-                <span class="tag">3 dorm.</span>
-                <span class="tag tag--price">desde USD 85</span>
-              </span>
-              <span class="house-go" aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-        </ul>
+      <div class="casas-grid" data-casas-grid>
+        <article class="casa-card" data-reveal>
+          <a class="casa-card-media frame frame--media" href="#casa-la-viuda" data-house="casa-la-viuda" tabindex="-1" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=768" srcset="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&auto=format&fit=crop&w=1100 1100w" sizes="(max-width: 640px) 92vw, (max-width: 1080px) 46vw, 24vw" alt="Sala de estar c&aacute;lida con luz natural y texturas de madera" loading="lazy" decoding="async">
+            <span class="casa-card-num">N&ordm; 01</span>
+          </a>
+          <div class="casa-card-body">
+            <p class="casa-card-lugar">Punta del Diablo &middot; Playa de la Viuda</p>
+            <h3 class="h3"><a href="#casa-la-viuda" data-house="casa-la-viuda">Casa La Viuda</a></h3>
+            <ul class="casa-card-datos">
+              <li>7 hu&eacute;spedes</li>
+              <li>3 dormitorios</li>
+              <li>60 m del mar</li>
+            </ul>
+            <p class="casa-card-estado"><span class="disp" data-disp="casa-la-viuda">Consultar fechas</span></p>
+            <div class="casa-card-pie">
+              <p class="casa-card-precio"><span>Desde</span> <strong>USD 120</strong> <span>/ noche</span></p>
+              <a class="btn btn--solid btn--sm" href="#casa-la-viuda" data-house="casa-la-viuda">Ver la casa <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="casa-card" data-reveal>
+          <a class="casa-card-media frame frame--media" href="#casa-playa-grande" data-house="casa-playa-grande" tabindex="-1" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=768" srcset="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&auto=format&fit=crop&w=1100 1100w" sizes="(max-width: 640px) 92vw, (max-width: 1080px) 46vw, 24vw" alt="Vista a&eacute;rea de la playa con oleaje visto desde la casa" loading="lazy" decoding="async">
+            <span class="casa-card-num">N&ordm; 02</span>
+          </a>
+          <div class="casa-card-body">
+            <p class="casa-card-lugar">Punta del Diablo &middot; Frente al mar abierto</p>
+            <h3 class="h3"><a href="#casa-playa-grande" data-house="casa-playa-grande">Casa Playa Grande</a></h3>
+            <ul class="casa-card-datos">
+              <li>8 hu&eacute;spedes</li>
+              <li>4 dormitorios</li>
+              <li>40 m del mar</li>
+            </ul>
+            <p class="casa-card-estado"><span class="disp" data-disp="casa-playa-grande">Consultar fechas</span></p>
+            <div class="casa-card-pie">
+              <p class="casa-card-precio"><span>Desde</span> <strong>USD 140</strong> <span>/ noche</span></p>
+              <a class="btn btn--solid btn--sm" href="#casa-playa-grande" data-house="casa-playa-grande">Ver la casa <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="casa-card" data-reveal>
+          <a class="casa-card-media frame frame--media" href="#casa-del-pueblo" data-house="casa-del-pueblo" tabindex="-1" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=768" srcset="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&auto=format&fit=crop&w=1100 1100w" sizes="(max-width: 640px) 92vw, (max-width: 1080px) 46vw, 24vw" alt="Casa c&eacute;ntrica con jard&iacute;n y mesa de madera al aire libre" loading="lazy" decoding="async">
+            <span class="casa-card-num">N&ordm; 03</span>
+          </a>
+          <div class="casa-card-body">
+            <p class="casa-card-lugar">Punta del Diablo &middot; A dos cuadras del centro</p>
+            <h3 class="h3"><a href="#casa-del-pueblo" data-house="casa-del-pueblo">Casa del Pueblo</a></h3>
+            <ul class="casa-card-datos">
+              <li>6 hu&eacute;spedes</li>
+              <li>3 dormitorios</li>
+              <li>Jard&iacute;n privado</li>
+            </ul>
+            <p class="casa-card-estado"><span class="disp" data-disp="casa-del-pueblo">Consultar fechas</span></p>
+            <div class="casa-card-pie">
+              <p class="casa-card-precio"><span>Desde</span> <strong>USD 95</strong> <span>/ noche</span></p>
+              <a class="btn btn--solid btn--sm" href="#casa-del-pueblo" data-house="casa-del-pueblo">Ver la casa <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="casa-card" data-reveal>
+          <a class="casa-card-media frame frame--media" href="#casa-dunas-chuy" data-house="casa-dunas-chuy" tabindex="-1" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=768" srcset="https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&auto=format&fit=crop&w=1100 1100w" sizes="(max-width: 640px) 92vw, (max-width: 1080px) 46vw, 24vw" alt="Playa ancha con arena clara y cielo despejado en la frontera" loading="lazy" decoding="async">
+            <span class="casa-card-num">N&ordm; 04</span>
+          </a>
+          <div class="casa-card-body">
+            <p class="casa-card-lugar">Chuy &middot; A pasos del centro</p>
+            <h3 class="h3"><a href="#casa-dunas-chuy" data-house="casa-dunas-chuy">Casa Dunas</a></h3>
+            <ul class="casa-card-datos">
+              <li>7 hu&eacute;spedes</li>
+              <li>3 dormitorios</li>
+              <li>10 min de la Barra</li>
+            </ul>
+            <p class="casa-card-estado"><span class="disp" data-disp="casa-dunas-chuy">Consultar fechas</span></p>
+            <div class="casa-card-pie">
+              <p class="casa-card-precio"><span>Desde</span> <strong>USD 85</strong> <span>/ noche</span></p>
+              <a class="btn btn--solid btn--sm" href="#casa-dunas-chuy" data-house="casa-dunas-chuy">Ver la casa <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </article>
       </div>
 
-      <div class="compare" id="comparar" data-reveal>
-        <h3 class="side-h">Comparar las casas</h3>
-        <table class="compare-table" data-house-compare>
-          <caption class="u-sr">Comparaci&oacute;n de las cuatro casas: capacidad, ubicaci&oacute;n, disponibilidad y precio</caption>
-          <thead>
-            <tr>
-              <th scope="col">Casa</th>
-              <th scope="col">Hu&eacute;spedes</th>
-              <th scope="col">Dormitorios</th>
-              <th scope="col">Ubicaci&oacute;n</th>
-              <th scope="col">Lo propio</th>
-              <th scope="col">Temporada 26/27</th>
-              <th scope="col">Desde</th>
-              <th scope="col"><span class="u-sr">Reservar</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row"><a href="#casa-la-viuda" data-house="casa-la-viuda">Casa La Viuda</a><span>Punta del Diablo</span></th>
-              <td data-label="Hu&eacute;spedes">7</td>
-              <td data-label="Dormitorios">3</td>
-              <td data-label="Ubicaci&oacute;n">60 m del mar</td>
-              <td data-label="Lo propio">Piedra y ventanales al este</td>
-              <td data-label="Temporada 26/27"><span class="disp">Consultar fechas</span></td>
-              <td data-label="Desde">USD 120</td>
-              <td class="compare-go"><a class="btn btn--solid btn--sm" href="#reservas" data-quote-house="casa-la-viuda">Reservar<span class="u-sr"> Casa La Viuda</span> <span aria-hidden="true">&rarr;</span></a></td>
-            </tr>
-            <tr>
-              <th scope="row"><a href="#casa-playa-grande" data-house="casa-playa-grande">Casa Playa Grande</a><span>Punta del Diablo</span></th>
-              <td data-label="Hu&eacute;spedes">8</td>
-              <td data-label="Dormitorios">4</td>
-              <td data-label="Ubicaci&oacute;n">40 m del mar</td>
-              <td data-label="Lo propio">Dos plantas y terraza al mar</td>
-              <td data-label="Temporada 26/27"><span class="disp">Consultar fechas</span></td>
-              <td data-label="Desde">USD 140</td>
-              <td class="compare-go"><a class="btn btn--solid btn--sm" href="#reservas" data-quote-house="casa-playa-grande">Reservar<span class="u-sr"> Casa Playa Grande</span> <span aria-hidden="true">&rarr;</span></a></td>
-            </tr>
-            <tr>
-              <th scope="row"><a href="#casa-del-pueblo" data-house="casa-del-pueblo">Casa del Pueblo</a><span>Punta del Diablo</span></th>
-              <td data-label="Hu&eacute;spedes">6</td>
-              <td data-label="Dormitorios">3</td>
-              <td data-label="Ubicaci&oacute;n">150 m del centro</td>
-              <td data-label="Lo propio">Jard&iacute;n privado</td>
-              <td data-label="Temporada 26/27"><span class="disp">Consultar fechas</span></td>
-              <td data-label="Desde">USD 95</td>
-              <td class="compare-go"><a class="btn btn--solid btn--sm" href="#reservas" data-quote-house="casa-del-pueblo">Reservar<span class="u-sr"> Casa del Pueblo</span> <span aria-hidden="true">&rarr;</span></a></td>
-            </tr>
-            <tr>
-              <th scope="row"><a href="#casa-dunas-chuy" data-house="casa-dunas-chuy">Casa Dunas</a><span>Chuy</span></th>
-              <td data-label="Hu&eacute;spedes">7</td>
-              <td data-label="Dormitorios">3</td>
-              <td data-label="Ubicaci&oacute;n">200 m del centro</td>
-              <td data-label="Lo propio">A 10 minutos de la Barra</td>
-              <td data-label="Temporada 26/27"><span class="disp">Consultar fechas</span></td>
-              <td data-label="Desde">USD 85</td>
-              <td class="compare-go"><a class="btn btn--solid btn--sm" href="#reservas" data-quote-house="casa-dunas-chuy">Reservar<span class="u-sr"> Casa Dunas</span> <span aria-hidden="true">&rarr;</span></a></td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="compare-note">Precios por noche y por casa, en temporada baja. Todas incluyen wifi, ropa de cama, estufa a le&ntilde;a, parrillero y estacionamiento.</p>
-      </div>
+      <p class="casas-nota">Precios por noche y por casa en temporada baja. Todas incluyen wifi, ropa de cama, estufa a le&ntilde;a, parrillero y estacionamiento. La disponibilidad se toma de Airbnb y Booking.com.</p>
     </section>
 
     <div class="houses">
@@ -583,8 +438,9 @@
         </div>
 
         <div class="house-cols">
-          <div class="house-story" data-reveal>
-            <h3 class="h3">Su historia</h3>
+          <details class="fold house-story">
+            <summary class="fold-sum">La historia de la casa</summary>
+            <div class="fold-body">
             <p>Cuentan que durante a&ntilde;os esta esquina de Playa de la Viuda fue solo
             piedra, monte y un pescador solitario. La casa se levant&oacute; lenta,
             capa a capa, hasta que alguien entendi&oacute; que no estaba hecha para
@@ -593,7 +449,8 @@
             madera que envejeci&oacute; con el salitre y dos largos ventanales que
             enmarcan el mar como un cuadro que nunca se repite.</p>
             <blockquote class="pullquote pullquote--story">&ldquo;Se abre con la luz.<br>Se duerme con el rumor del agua.&rdquo;</blockquote>
-          </div>
+            </div>
+          </details>
 
           <aside class="house-side" aria-label="Datos y reserva de Casa La Viuda">
           <div class="specs">
@@ -602,8 +459,9 @@
             <div class="spec"><span class="spec-label">Dormitorios</span><span class="spec-value spec-count" data-to="3">3</span></div>
             <div class="spec"><span class="spec-label">Espacio</span><span class="spec-value spec-count" data-to="180" data-suffix=" m&sup2;">180 m&sup2;</span></div>
           </div>
-          <div class="side-box">
-            <h4 class="side-h">La casa incluye</h4>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">La casa incluye</summary>
+            <div class="fold-body">
             <p class="amen-beds">1 matrimonial &middot; 2 dobles &middot; 1 cucheta</p>
             <ul class="amen-list">
               <li>Wifi</li>
@@ -614,9 +472,11 @@
               <li>Parrillero</li>
               <li>Estacionamiento</li>
             </ul>
-          </div>
-          <div class="side-box">
-            <h4 class="side-h">Antes de venir</h4>
+            </div>
+          </details>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Antes de venir</summary>
+            <div class="fold-body">
             <dl class="rules">
               <div><dt>Entrada y salida</dt><dd>Desde las 15:00 &middot; hasta las 10:00</dd></div>
               <div><dt>Estad&iacute;a m&iacute;nima</dt><dd>2 noches &middot; 7 en A&ntilde;o Nuevo y Carnaval</dd></div>
@@ -624,15 +484,17 @@
               <div><dt>Convivencia</dt><dd>Sin fiestas &middot; silencio de 23 a 8</dd></div>
               <div><dt>Incluido</dt><dd>Limpieza previa, s&aacute;banas y toallas</dd></div>
             </dl>
-          </div>
+            </div>
+          </details>
           <div class="side-box">
             <h4 class="side-h">Disponibilidad</h4>
             <div class="cal" data-cal="casa-la-viuda">
               <p class="cal-msg">Cargando disponibilidad&hellip;</p>
             </div>
           </div>
-          <div class="side-box">
-            <h4 class="side-h">Tarifas por noche</h4>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Tarifas por temporada</summary>
+            <div class="fold-body">
             <table class="price-table">
               <caption class="u-sr">Tarifas por noche de Casa La Viuda, temporada 2026/27</caption>
               <thead>
@@ -662,11 +524,11 @@
               </tbody>
             </table>
             <p class="price-note">Valores de referencia en d&oacute;lares, por noche y por casa. La estad&iacute;a m&iacute;nima var&iacute;a seg&uacute;n la temporada &mdash; confirmamos el total exacto al consultar.</p>
-          </div>
+            </div>
+          </details>
           <div class="book" id="reservar-casa-la-viuda">
             <div class="book-head">
               <p class="book-price"><span class="book-from">Desde</span><strong>USD 120</strong><span class="book-unit">/ noche</span></p>
-              <p class="rating" data-rating="PENDIENTE" hidden><span class="rating-score"></span><span class="rating-count"></span></p>
             </div>
 
             <div class="book-actions">
@@ -674,17 +536,14 @@
               <a class="btn btn--solid" href="mailto:hola@encontrarse.uy?subject=Consulta%20por%20Casa%20La%20Viuda">Escribir un mail</a>
             </div>
 
-            <div class="book-plats" data-plats hidden>
-              <p class="book-plats-h">Tambi&eacute;n pod&eacute;s reservar en</p>
-              <div class="book-plats-row">
-                <a class="plat" data-plat="Airbnb" data-url="PENDIENTE" target="_blank" rel="noopener">Airbnb</a>
-                <a class="plat" data-plat="Booking.com" data-url="PENDIENTE" target="_blank" rel="noopener">Booking.com</a>
-              </div>
+            <div class="rep-row" data-rep-row hidden>
+              <a class="rep-chip rep-chip--airbnb" data-rep="airbnb" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
+              <a class="rep-chip rep-chip--booking" data-rep="booking" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
             </div>
             <a class="book-quote" href="#reservas" data-quote-house="casa-la-viuda">Calcular el total para tus fechas <span aria-hidden="true">&rarr;</span></a>
 
             <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
-            <a class="text-link text-link--sm" href="https://www.google.com/maps/search/?api=1&query=Playa%20de%20la%20Viuda%2C%20Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener">Ver Playa de la Viuda en el mapa <span aria-hidden="true">&rarr;</span></a>
+            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Playa%20de%20la%20Viuda%2C%20Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg> Ver Playa de la Viuda en Google Maps</a>
           </div>
           </aside>
         </div>
@@ -734,8 +593,9 @@
         </div>
 
         <div class="house-cols">
-          <div class="house-story" data-reveal>
-            <h3 class="h3">Vivir de cara al oleaje</h3>
+          <details class="fold house-story">
+            <summary class="fold-sum">Vivir de cara al oleaje</summary>
+            <div class="fold-body">
             <p>Ac&aacute; el mar no se ve: se siente. La terraza alta asoma por encima
             de la duna y convierte a Playa Grande en un sal&oacute;n m&aacute;s de la casa.
             Por la ma&ntilde;ana, caf&eacute; con vista a los surfistas; por la noche, el
@@ -744,7 +604,8 @@
             pensada para grupos y familias que buscan esa energ&iacute;a abierta
             que solo da el mar sin l&iacute;mites.</p>
             <blockquote class="pullquote pullquote--story">&ldquo;Un balc&oacute;n que se abre<br>al oc&eacute;ano entero.&rdquo;</blockquote>
-          </div>
+            </div>
+          </details>
 
           <aside class="house-side" aria-label="Datos y reserva de Casa Playa Grande">
           <div class="specs">
@@ -753,8 +614,9 @@
             <div class="spec"><span class="spec-label">Dormitorios</span><span class="spec-value spec-count" data-to="4">4</span></div>
             <div class="spec"><span class="spec-label">Plantas</span><span class="spec-value spec-count" data-to="2">2</span></div>
           </div>
-          <div class="side-box">
-            <h4 class="side-h">La casa incluye</h4>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">La casa incluye</summary>
+            <div class="fold-body">
             <p class="amen-beds">2 matrimoniales &middot; 2 dobles &middot; 2 cuchetas</p>
             <ul class="amen-list">
               <li>Wifi</li>
@@ -766,9 +628,11 @@
               <li>Estacionamiento</li>
               <li>Terraza con vista al mar</li>
             </ul>
-          </div>
-          <div class="side-box">
-            <h4 class="side-h">Antes de venir</h4>
+            </div>
+          </details>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Antes de venir</summary>
+            <div class="fold-body">
             <dl class="rules">
               <div><dt>Entrada y salida</dt><dd>Desde las 15:00 &middot; hasta las 10:00</dd></div>
               <div><dt>Estad&iacute;a m&iacute;nima</dt><dd>2 noches &middot; 7 en A&ntilde;o Nuevo y Carnaval</dd></div>
@@ -776,15 +640,17 @@
               <div><dt>Convivencia</dt><dd>Sin fiestas &middot; silencio de 23 a 8</dd></div>
               <div><dt>Incluido</dt><dd>Limpieza previa, s&aacute;banas y toallas</dd></div>
             </dl>
-          </div>
+            </div>
+          </details>
           <div class="side-box">
             <h4 class="side-h">Disponibilidad</h4>
             <div class="cal" data-cal="casa-playa-grande">
               <p class="cal-msg">Cargando disponibilidad&hellip;</p>
             </div>
           </div>
-          <div class="side-box">
-            <h4 class="side-h">Tarifas por noche</h4>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Tarifas por temporada</summary>
+            <div class="fold-body">
             <table class="price-table">
               <caption class="u-sr">Tarifas por noche de Casa Playa Grande, temporada 2026/27</caption>
               <thead>
@@ -814,11 +680,11 @@
               </tbody>
             </table>
             <p class="price-note">Valores de referencia en d&oacute;lares, por noche y por casa. La estad&iacute;a m&iacute;nima var&iacute;a seg&uacute;n la temporada &mdash; confirmamos el total exacto al consultar.</p>
-          </div>
+            </div>
+          </details>
           <div class="book" id="reservar-casa-playa-grande">
             <div class="book-head">
               <p class="book-price"><span class="book-from">Desde</span><strong>USD 140</strong><span class="book-unit">/ noche</span></p>
-              <p class="rating" data-rating="PENDIENTE" hidden><span class="rating-score"></span><span class="rating-count"></span></p>
             </div>
 
             <div class="book-actions">
@@ -826,17 +692,14 @@
               <a class="btn btn--solid" href="mailto:hola@encontrarse.uy?subject=Consulta%20por%20Casa%20Playa%20Grande">Escribir un mail</a>
             </div>
 
-            <div class="book-plats" data-plats hidden>
-              <p class="book-plats-h">Tambi&eacute;n pod&eacute;s reservar en</p>
-              <div class="book-plats-row">
-                <a class="plat" data-plat="Airbnb" data-url="PENDIENTE" target="_blank" rel="noopener">Airbnb</a>
-                <a class="plat" data-plat="Booking.com" data-url="PENDIENTE" target="_blank" rel="noopener">Booking.com</a>
-              </div>
+            <div class="rep-row" data-rep-row hidden>
+              <a class="rep-chip rep-chip--airbnb" data-rep="airbnb" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
+              <a class="rep-chip rep-chip--booking" data-rep="booking" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
             </div>
             <a class="book-quote" href="#reservas" data-quote-house="casa-playa-grande">Calcular el total para tus fechas <span aria-hidden="true">&rarr;</span></a>
 
             <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
-            <a class="text-link text-link--sm" href="https://www.google.com/maps/search/?api=1&query=Playa%20Grande%2C%20Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener">Ver Playa Grande en el mapa <span aria-hidden="true">&rarr;</span></a>
+            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Playa%20Grande%2C%20Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg> Ver Playa Grande en Google Maps</a>
           </div>
           </aside>
         </div>
@@ -886,8 +749,9 @@
         </div>
 
         <div class="house-cols">
-          <div class="house-story" data-reveal>
-            <h3 class="h3">Cerca de todo, lejos de todo</h3>
+          <details class="fold house-story">
+            <summary class="fold-sum">Cerca de todo, lejos de todo</summary>
+            <div class="fold-body">
             <p>La suerte de estar en pleno Punta del Diablo sin sentir su bullicio.
             A dos cuadras de la calle principal con sus puestitos y parrillas,
             pero con un jard&iacute;n propio que hace de cortina verde entre el pueblo
@@ -896,7 +760,8 @@
             perfume del monte. Perfecta para caminarlo todo y volver a dormir
             entre s&aacute;banas limpias.</p>
             <blockquote class="pullquote pullquote--story">&ldquo;El centro del pueblo,<br>con jard&iacute;n de secreto.&rdquo;</blockquote>
-          </div>
+            </div>
+          </details>
 
           <aside class="house-side" aria-label="Datos y reserva de Casa del Pueblo">
           <div class="specs">
@@ -905,8 +770,9 @@
             <div class="spec"><span class="spec-label">Dormitorios</span><span class="spec-value spec-count" data-to="3">3</span></div>
             <div class="spec"><span class="spec-label">Jard&iacute;n</span><span class="spec-value">Privado</span></div>
           </div>
-          <div class="side-box">
-            <h4 class="side-h">La casa incluye</h4>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">La casa incluye</summary>
+            <div class="fold-body">
             <p class="amen-beds">1 matrimonial &middot; 2 dobles &middot; 1 sof&aacute; cama</p>
             <ul class="amen-list">
               <li>Wifi</li>
@@ -918,9 +784,11 @@
               <li>Estacionamiento</li>
               <li>Jard&iacute;n privado</li>
             </ul>
-          </div>
-          <div class="side-box">
-            <h4 class="side-h">Antes de venir</h4>
+            </div>
+          </details>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Antes de venir</summary>
+            <div class="fold-body">
             <dl class="rules">
               <div><dt>Entrada y salida</dt><dd>Desde las 15:00 &middot; hasta las 10:00</dd></div>
               <div><dt>Estad&iacute;a m&iacute;nima</dt><dd>2 noches &middot; 7 en A&ntilde;o Nuevo y Carnaval</dd></div>
@@ -928,15 +796,17 @@
               <div><dt>Convivencia</dt><dd>Sin fiestas &middot; silencio de 23 a 8</dd></div>
               <div><dt>Incluido</dt><dd>Limpieza previa, s&aacute;banas y toallas</dd></div>
             </dl>
-          </div>
+            </div>
+          </details>
           <div class="side-box">
             <h4 class="side-h">Disponibilidad</h4>
             <div class="cal" data-cal="casa-del-pueblo">
               <p class="cal-msg">Cargando disponibilidad&hellip;</p>
             </div>
           </div>
-          <div class="side-box">
-            <h4 class="side-h">Tarifas por noche</h4>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Tarifas por temporada</summary>
+            <div class="fold-body">
             <table class="price-table">
               <caption class="u-sr">Tarifas por noche de Casa del Pueblo, temporada 2026/27</caption>
               <thead>
@@ -966,11 +836,11 @@
               </tbody>
             </table>
             <p class="price-note">Valores de referencia en d&oacute;lares, por noche y por casa. La estad&iacute;a m&iacute;nima var&iacute;a seg&uacute;n la temporada &mdash; confirmamos el total exacto al consultar.</p>
-          </div>
+            </div>
+          </details>
           <div class="book" id="reservar-casa-del-pueblo">
             <div class="book-head">
               <p class="book-price"><span class="book-from">Desde</span><strong>USD 95</strong><span class="book-unit">/ noche</span></p>
-              <p class="rating" data-rating="PENDIENTE" hidden><span class="rating-score"></span><span class="rating-count"></span></p>
             </div>
 
             <div class="book-actions">
@@ -978,17 +848,14 @@
               <a class="btn btn--solid" href="mailto:hola@encontrarse.uy?subject=Consulta%20por%20Casa%20del%20Pueblo">Escribir un mail</a>
             </div>
 
-            <div class="book-plats" data-plats hidden>
-              <p class="book-plats-h">Tambi&eacute;n pod&eacute;s reservar en</p>
-              <div class="book-plats-row">
-                <a class="plat" data-plat="Airbnb" data-url="PENDIENTE" target="_blank" rel="noopener">Airbnb</a>
-                <a class="plat" data-plat="Booking.com" data-url="PENDIENTE" target="_blank" rel="noopener">Booking.com</a>
-              </div>
+            <div class="rep-row" data-rep-row hidden>
+              <a class="rep-chip rep-chip--airbnb" data-rep="airbnb" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
+              <a class="rep-chip rep-chip--booking" data-rep="booking" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
             </div>
             <a class="book-quote" href="#reservas" data-quote-house="casa-del-pueblo">Calcular el total para tus fechas <span aria-hidden="true">&rarr;</span></a>
 
             <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
-            <a class="text-link text-link--sm" href="https://www.google.com/maps/search/?api=1&query=Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener">Ver el centro de Punta del Diablo en el mapa <span aria-hidden="true">&rarr;</span></a>
+            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg> Ver el centro de Punta del Diablo en Google Maps</a>
           </div>
           </aside>
         </div>
@@ -1038,8 +905,9 @@
         </div>
 
         <div class="house-cols">
-          <div class="house-story" data-reveal>
-            <h3 class="h3">El extremo de la costa</h3>
+          <details class="fold house-story">
+            <summary class="fold-sum">El extremo de la costa</summary>
+            <div class="fold-body">
             <p>&Uacute;ltima parada antes de Brasil. Casa c&eacute;ntrica en Chuy que cruza el
             pueblo a pie: el kiosco de la frontera a una vuelta, la Barra del
             Chuy a un paseo y la Fortaleza de Santa Teresa a minutos.</p>
@@ -1047,7 +915,8 @@
             quien viene del otro lado. Ideal para quienes quieren la costa
             en su forma m&aacute;s ancha y sin multitudes.</p>
             <blockquote class="pullquote pullquote--story">&ldquo;La costa m&aacute;s ancha<br>que el ojo alcanza.&rdquo;</blockquote>
-          </div>
+            </div>
+          </details>
 
           <aside class="house-side" aria-label="Datos y reserva de Casa Dunas">
           <div class="specs">
@@ -1056,8 +925,9 @@
             <div class="spec"><span class="spec-label">Dormitorios</span><span class="spec-value spec-count" data-to="3">3</span></div>
             <div class="spec"><span class="spec-label">A la Barra</span><span class="spec-value">10 min</span></div>
           </div>
-          <div class="side-box">
-            <h4 class="side-h">La casa incluye</h4>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">La casa incluye</summary>
+            <div class="fold-body">
             <p class="amen-beds">1 matrimonial &middot; 3 dobles &middot; 1 cucheta</p>
             <ul class="amen-list">
               <li>Wifi</li>
@@ -1068,9 +938,11 @@
               <li>Parrillero</li>
               <li>Estacionamiento</li>
             </ul>
-          </div>
-          <div class="side-box">
-            <h4 class="side-h">Antes de venir</h4>
+            </div>
+          </details>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Antes de venir</summary>
+            <div class="fold-body">
             <dl class="rules">
               <div><dt>Entrada y salida</dt><dd>Desde las 15:00 &middot; hasta las 10:00</dd></div>
               <div><dt>Estad&iacute;a m&iacute;nima</dt><dd>2 noches &middot; 7 en A&ntilde;o Nuevo y Carnaval</dd></div>
@@ -1078,15 +950,17 @@
               <div><dt>Convivencia</dt><dd>Sin fiestas &middot; silencio de 23 a 8</dd></div>
               <div><dt>Incluido</dt><dd>Limpieza previa, s&aacute;banas y toallas</dd></div>
             </dl>
-          </div>
+            </div>
+          </details>
           <div class="side-box">
             <h4 class="side-h">Disponibilidad</h4>
             <div class="cal" data-cal="casa-dunas-chuy">
               <p class="cal-msg">Cargando disponibilidad&hellip;</p>
             </div>
           </div>
-          <div class="side-box">
-            <h4 class="side-h">Tarifas por noche</h4>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Tarifas por temporada</summary>
+            <div class="fold-body">
             <table class="price-table">
               <caption class="u-sr">Tarifas por noche de Casa Dunas, temporada 2026/27</caption>
               <thead>
@@ -1116,11 +990,11 @@
               </tbody>
             </table>
             <p class="price-note">Valores de referencia en d&oacute;lares, por noche y por casa. La estad&iacute;a m&iacute;nima var&iacute;a seg&uacute;n la temporada &mdash; confirmamos el total exacto al consultar.</p>
-          </div>
+            </div>
+          </details>
           <div class="book" id="reservar-casa-dunas-chuy">
             <div class="book-head">
               <p class="book-price"><span class="book-from">Desde</span><strong>USD 85</strong><span class="book-unit">/ noche</span></p>
-              <p class="rating" data-rating="PENDIENTE" hidden><span class="rating-score"></span><span class="rating-count"></span></p>
             </div>
 
             <div class="book-actions">
@@ -1128,17 +1002,14 @@
               <a class="btn btn--solid" href="mailto:hola@encontrarse.uy?subject=Consulta%20por%20Casa%20Dunas">Escribir un mail</a>
             </div>
 
-            <div class="book-plats" data-plats hidden>
-              <p class="book-plats-h">Tambi&eacute;n pod&eacute;s reservar en</p>
-              <div class="book-plats-row">
-                <a class="plat" data-plat="Airbnb" data-url="PENDIENTE" target="_blank" rel="noopener">Airbnb</a>
-                <a class="plat" data-plat="Booking.com" data-url="PENDIENTE" target="_blank" rel="noopener">Booking.com</a>
-              </div>
+            <div class="rep-row" data-rep-row hidden>
+              <a class="rep-chip rep-chip--airbnb" data-rep="airbnb" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
+              <a class="rep-chip rep-chip--booking" data-rep="booking" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
             </div>
             <a class="book-quote" href="#reservas" data-quote-house="casa-dunas-chuy">Calcular el total para tus fechas <span aria-hidden="true">&rarr;</span></a>
 
             <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
-            <a class="text-link text-link--sm" href="https://www.google.com/maps/search/?api=1&query=Barra%20del%20Chuy%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener">Ver Chuy y la Barra en el mapa <span aria-hidden="true">&rarr;</span></a>
+            <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Barra%20del%20Chuy%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg> Ver Chuy y la Barra en Google Maps</a>
           </div>
           </aside>
         </div>
@@ -1146,6 +1017,147 @@
     </section>
 
     </div>
+
+    <section class="cta cta--compact" id="reservas">
+      <div class="cta-media">
+        <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=2200" srcset="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=1100 1100w, https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=1600 1600w, https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=2200 2200w" sizes="100vw" decoding="async" alt="Océano profundo visto desde el aire" loading="lazy">
+        <span class="cta-scrim"></span>
+      </div>
+
+      <div class="cta-inner" data-reveal>
+        <p class="eyebrow">Consultar disponibilidad</p>
+        <h2 class="cta-title">La próxima marea<br>te está <em>esperando</em>.</h2>
+        <p class="cta-sub">
+          Temporada 2026/27. Contanos cu&aacute;ndo y cu&aacute;ntos son: te respondemos
+          nosotros, con la disponibilidad y el total exacto.
+        </p>
+
+        <form class="quote" id="quote" data-wa="59899123456" data-mail="hola@encontrarse.uy" novalidate>
+          <script type="application/json" id="quote-config">
+            {
+              "minNoches": 2,
+              "especiales": [
+                { "nombre": "Año Nuevo", "desde": "2026-12-28", "hasta": "2027-01-01", "tarifa": 3, "minNoches": 7 },
+                { "nombre": "Carnaval", "desde": "2027-02-06", "hasta": "2027-02-09", "minNoches": 7 }
+              ]
+            }
+          </script>
+          <div class="quote-grid">
+            <label class="field field--wide">
+              <span class="field-label">Casa</span>
+              <select name="casa" id="q-casa">
+                <option value="">Cualquiera que est&eacute; libre</option>
+                <option value="casa-la-viuda">Casa La Viuda &middot; Punta del Diablo</option>
+                <option value="casa-playa-grande">Casa Playa Grande &middot; Punta del Diablo</option>
+                <option value="casa-del-pueblo">Casa del Pueblo &middot; Punta del Diablo</option>
+                <option value="casa-dunas-chuy">Casa Dunas &middot; Chuy</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">Llegada</span>
+              <input type="date" name="llegada" id="q-llegada">
+            </label>
+            <label class="field">
+              <span class="field-label">Salida</span>
+              <input type="date" name="salida" id="q-salida">
+            </label>
+            <label class="field">
+              <span class="field-label">Hu&eacute;spedes</span>
+              <input type="number" name="huespedes" id="q-huespedes" min="1" max="8" value="2" inputmode="numeric">
+            </label>
+            <label class="field field--check">
+              <input type="checkbox" name="mascota" id="q-mascota">
+              <span>Viajo con mascota</span>
+            </label>
+          </div>
+
+          <div class="quote-sum" aria-live="polite">
+            <p class="quote-total" data-quote-total>Eleg&iacute; las fechas para ver un estimado.</p>
+            <p class="quote-detail" data-quote-detail hidden></p>
+            <p class="quote-warn" data-quote-warn hidden></p>
+          </div>
+
+          <div class="quote-actions">
+            <button type="submit" class="btn btn--wa btn--wa-lg"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Enviar por WhatsApp</button>
+            <a class="btn btn--quiet" href="mailto:hola@encontrarse.uy?subject=Consulta%20de%20disponibilidad" data-quote-mail>Enviar por mail</a>
+          </div>
+          <p class="quote-note">El estimado usa las tarifas de referencia. La web no guarda ni env&iacute;a nada: se abre WhatsApp o tu correo con el mensaje listo, y lo mand&aacute;s vos.</p>
+        </form>
+
+        <div class="cta-actions cta-actions--nojs">
+          <a class="btn btn--wa btn--wa-lg" href="https://wa.me/59899123456?text=Hola!%20Quisiera%20consultar%20disponibilidad%20en%20Encontrarse." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Escribir por WhatsApp</a>
+          <a class="btn btn--ghost-light" href="#casas">Ver las casas</a>
+        </div>
+
+        <ul class="channels" aria-label="Otras formas de contacto">
+          <li><a href="mailto:hola@encontrarse.uy">hola@encontrarse.uy</a></li>
+          <li><a href="tel:+59899123456">+598 99 123 456</a></li>
+          <li><a href="https://instagram.com/encontrarse.pdd" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+
+        <p class="cta-foot">Tambi&eacute;n estamos en Airbnb y Booking.com &mdash; si prefer&iacute;s reservar con tu cuenta de siempre, pedinos el link de la casa que te guste.</p>
+      </div>
+
+      <svg class="waves waves--cta" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="wave-sand" d="M0 70 C 260 30 520 34 800 72 C 1070 108 1260 98 1440 60 V140 H0 Z"/>
+        <path class="wave-blue" d="M0 96 C 300 62 590 70 860 102 C 1110 130 1280 118 1440 92 V140 H0 Z"/>
+        <path class="wave-paper" d="M0 118 C 320 98 650 102 920 118 C 1140 132 1300 126 1440 112 V140 H0 Z"/>
+      </svg>
+    </section>
+    <section class="resenas section" id="resenas">
+      <div class="rep-head" data-reveal>
+        <div class="rep-head-copy">
+          <p class="eyebrow eyebrow--ink">02 &mdash; Rese&ntilde;as</p>
+          <h2 class="h2">Lo que cuentan quienes<br>ya <em>vivieron el mar</em></h2>
+          <p class="rep-sub" data-rep-sub="PENDIENTE" hidden></p>
+        </div>
+        <div class="rep-badges">
+          <a class="rep-badge rep-badge--airbnb" data-rep-badge="airbnb" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener" hidden></a>
+          <a class="rep-badge rep-badge--booking" data-rep-badge="booking" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener" hidden></a>
+        </div>
+      </div>
+
+      <div class="resenas-grid" data-voces>
+        <figure class="resena" data-voz>
+          <div class="resena-top">
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span class="resena-src">Airbnb</span>
+          </div>
+          <blockquote><p>PENDIENTE</p></blockquote>
+          <p class="resena-body">Texto m&aacute;s largo de la rese&ntilde;a, tal como lo dej&oacute; el hu&eacute;sped.</p>
+          <figcaption class="resena-who">
+            <span class="resena-ini" aria-hidden="true">&mdash;</span>
+            <span class="resena-datos"><strong>Nombre del hu&eacute;sped</strong><span>Ciudad, pa&iacute;s</span></span>
+          </figcaption>
+        </figure>
+        <figure class="resena" data-voz>
+          <div class="resena-top">
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span class="resena-src">Booking.com</span>
+          </div>
+          <blockquote><p>PENDIENTE</p></blockquote>
+          <p class="resena-body">Texto m&aacute;s largo de la rese&ntilde;a, tal como lo dej&oacute; el hu&eacute;sped.</p>
+          <figcaption class="resena-who">
+            <span class="resena-ini" aria-hidden="true">&mdash;</span>
+            <span class="resena-datos"><strong>Nombre del hu&eacute;sped</strong><span>Ciudad, pa&iacute;s</span></span>
+          </figcaption>
+        </figure>
+        <figure class="resena" data-voz>
+          <div class="resena-top">
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span class="resena-src">Consulta directa</span>
+          </div>
+          <blockquote><p>PENDIENTE</p></blockquote>
+          <p class="resena-body">Texto m&aacute;s largo de la rese&ntilde;a, tal como lo dej&oacute; el hu&eacute;sped.</p>
+          <figcaption class="resena-who">
+            <span class="resena-ini" aria-hidden="true">&mdash;</span>
+            <span class="resena-datos"><strong>Nombre del hu&eacute;sped</strong><span>Ciudad, pa&iacute;s</span></span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="resenas-nota" data-resenas-nota>Las opiniones se copian de Airbnb y Booking.com cuando est&eacute;n cargadas.</p>
+    </section>
 
     <section class="mapa section" id="mapa">
       <header class="section-head" data-reveal>
@@ -1370,62 +1382,9 @@
         </div>
         <div class="season-actions">
           <a class="btn btn--solid" href="#reservas">Consultar una escapada <span aria-hidden="true">&rarr;</span></a>
-          <a class="text-link" href="#comparar">Comparar las casas <span aria-hidden="true">&rarr;</span></a>
+          <a class="text-link" href="#casas">Comparar las casas <span aria-hidden="true">&rarr;</span></a>
         </div>
       </aside>
-    </section>
-
-    <section class="trato section" id="trato">
-      <div class="trato-grid">
-        <header class="trato-head" data-reveal>
-          <p class="eyebrow eyebrow--ink">C&oacute;mo trabajamos</p>
-          <h2 class="h2">Del otro lado<br>hay <em>personas</em></h2>
-          <p class="section-sub">Encontrarse no es una plataforma: somos quienes eligen, cuidan y entregan cada casa. Esto es lo que pod&eacute;s esperar.</p>
-          <figure class="host" data-host hidden>
-            <div class="host-photo"><img data-host-photo data-src="PENDIENTE" alt="" loading="lazy" decoding="async" width="160" height="160"></div>
-            <figcaption><strong data-host-name>PENDIENTE</strong><span>Quien te responde y te recibe</span></figcaption>
-          </figure>
-        </header>
-        <ol class="trato-list" data-reveal data-delay="1">
-          <li>
-            <h3 class="trato-title">Te responde una persona</h3>
-            <p>Por WhatsApp o mail, con la disponibilidad real y el total exacto. Sin respuestas autom&aacute;ticas.</p>
-          </li>
-          <li>
-            <h3 class="trato-title">El precio final, por escrito</h3>
-            <p>Antes de dejar la se&ntilde;a te confirmamos el total. Lo que acordamos es lo que pag&aacute;s.</p>
-          </li>
-          <li>
-            <h3 class="trato-title">Se&ntilde;a del 30% y cancelaci&oacute;n clara</h3>
-            <p>Con m&aacute;s de 30 d&iacute;as se devuelve completa; entre 30 y 15 d&iacute;as, la mitad. Si cancelamos nosotros, se devuelve todo.</p>
-          </li>
-          <li>
-            <h3 class="trato-title">La casa lista cuando lleg&aacute;s</h3>
-            <p>Limpia, con s&aacute;banas y toallas, desde las 15:00. Y cualquier cosa durante la estad&iacute;a, nos escrib&iacute;s al mismo n&uacute;mero.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="voces section" id="voces" data-voces hidden>
-      <header class="section-head centered">
-        <p class="eyebrow eyebrow--ink">Hu&eacute;spedes</p>
-        <h2 class="h2">Lo que se llevan<br>de <em>vuelta</em></h2>
-      </header>
-      <div class="voces-grid">
-        <figure class="voz" data-voz>
-          <blockquote><p>PENDIENTE</p></blockquote>
-          <figcaption><strong>Nombre del hu&eacute;sped</strong><span>Casa La Viuda &middot; mes y a&ntilde;o</span></figcaption>
-        </figure>
-        <figure class="voz" data-voz>
-          <blockquote><p>PENDIENTE</p></blockquote>
-          <figcaption><strong>Nombre del hu&eacute;sped</strong><span>Casa Playa Grande &middot; mes y a&ntilde;o</span></figcaption>
-        </figure>
-        <figure class="voz" data-voz>
-          <blockquote><p>PENDIENTE</p></blockquote>
-          <figcaption><strong>Nombre del hu&eacute;sped</strong><span>Casa Dunas &middot; mes y a&ntilde;o</span></figcaption>
-        </figure>
-      </div>
     </section>
 
     <section class="faq section" id="faq">
@@ -1478,94 +1437,6 @@
         </details>
       </div>
     </section>
-
-    <section class="cta" id="reservas">
-      <div class="cta-media">
-        <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=2200" srcset="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=480 480w, https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=768 768w, https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=1100 1100w, https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=1600 1600w, https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&auto=format&fit=crop&w=2200 2200w" sizes="100vw" decoding="async" alt="Océano profundo visto desde el aire" loading="lazy">
-        <span class="cta-scrim"></span>
-      </div>
-
-      <div class="cta-inner" data-reveal>
-        <p class="eyebrow">06 &mdash; Reservas</p>
-        <h2 class="cta-title">La próxima marea<br>te está <em>esperando</em>.</h2>
-        <p class="cta-sub">
-          Temporada 2026/27. Contanos cu&aacute;ndo y cu&aacute;ntos son: te respondemos
-          nosotros, con la disponibilidad y el total exacto.
-        </p>
-
-        <form class="quote" id="quote" data-wa="59899123456" data-mail="hola@encontrarse.uy" novalidate>
-          <script type="application/json" id="quote-config">
-            {
-              "minNoches": 2,
-              "especiales": [
-                { "nombre": "Año Nuevo", "desde": "2026-12-28", "hasta": "2027-01-01", "tarifa": 3, "minNoches": 7 },
-                { "nombre": "Carnaval", "desde": "2027-02-06", "hasta": "2027-02-09", "minNoches": 7 }
-              ]
-            }
-          </script>
-          <div class="quote-grid">
-            <label class="field field--wide">
-              <span class="field-label">Casa</span>
-              <select name="casa" id="q-casa">
-                <option value="">Cualquiera que est&eacute; libre</option>
-                <option value="casa-la-viuda">Casa La Viuda &middot; Punta del Diablo</option>
-                <option value="casa-playa-grande">Casa Playa Grande &middot; Punta del Diablo</option>
-                <option value="casa-del-pueblo">Casa del Pueblo &middot; Punta del Diablo</option>
-                <option value="casa-dunas-chuy">Casa Dunas &middot; Chuy</option>
-              </select>
-            </label>
-            <label class="field">
-              <span class="field-label">Llegada</span>
-              <input type="date" name="llegada" id="q-llegada">
-            </label>
-            <label class="field">
-              <span class="field-label">Salida</span>
-              <input type="date" name="salida" id="q-salida">
-            </label>
-            <label class="field">
-              <span class="field-label">Hu&eacute;spedes</span>
-              <input type="number" name="huespedes" id="q-huespedes" min="1" max="8" value="2" inputmode="numeric">
-            </label>
-            <label class="field field--check">
-              <input type="checkbox" name="mascota" id="q-mascota">
-              <span>Viajo con mascota</span>
-            </label>
-          </div>
-
-          <div class="quote-sum" aria-live="polite">
-            <p class="quote-total" data-quote-total>Eleg&iacute; las fechas para ver un estimado.</p>
-            <p class="quote-detail" data-quote-detail hidden></p>
-            <p class="quote-warn" data-quote-warn hidden></p>
-          </div>
-
-          <div class="quote-actions">
-            <button type="submit" class="btn btn--wa btn--wa-lg"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Enviar por WhatsApp</button>
-            <a class="btn btn--quiet" href="mailto:hola@encontrarse.uy?subject=Consulta%20de%20disponibilidad" data-quote-mail>Enviar por mail</a>
-          </div>
-          <p class="quote-note">El estimado usa las tarifas de referencia. La web no guarda ni env&iacute;a nada: se abre WhatsApp o tu correo con el mensaje listo, y lo mand&aacute;s vos.</p>
-        </form>
-
-        <div class="cta-actions cta-actions--nojs">
-          <a class="btn btn--wa btn--wa-lg" href="https://wa.me/59899123456?text=Hola!%20Quisiera%20consultar%20disponibilidad%20en%20Encontrarse." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Escribir por WhatsApp</a>
-          <a class="btn btn--ghost-light" href="#casas">Ver las casas</a>
-        </div>
-
-        <ul class="channels" aria-label="Otras formas de contacto">
-          <li><a href="mailto:hola@encontrarse.uy">hola@encontrarse.uy</a></li>
-          <li><a href="tel:+59899123456">+598 99 123 456</a></li>
-          <li><a href="https://instagram.com/encontrarse.pdd" target="_blank" rel="noopener">Instagram</a></li>
-        </ul>
-
-        <p class="cta-foot">Tambi&eacute;n estamos en Airbnb y Booking.com &mdash; si prefer&iacute;s reservar con tu cuenta de siempre, pedinos el link de la casa que te guste.</p>
-      </div>
-
-      <svg class="waves waves--cta" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path class="wave-sand" d="M0 70 C 260 30 520 34 800 72 C 1070 108 1260 98 1440 60 V140 H0 Z"/>
-        <path class="wave-blue" d="M0 96 C 300 62 590 70 860 102 C 1110 130 1280 118 1440 92 V140 H0 Z"/>
-        <path class="wave-deep" d="M0 118 C 320 98 650 102 920 118 C 1140 132 1300 126 1440 112 V140 H0 Z"/>
-      </svg>
-    </section>
-
   </main>
 
   <footer class="footer">
@@ -1583,8 +1454,8 @@
         <div class="footer-col" data-reveal>
           <p class="footer-h">Explorar</p>
           <ul>
-            <li><a href="#idea">La idea</a></li>
             <li><a href="#casas">Las casas</a></li>
+            <li><a href="#resenas">Rese&ntilde;as</a></li>
             <li><a href="#mapa">C&oacute;mo llegar</a></li>
             <li><a href="#zona">La zona</a></li>
             <li><a href="#faq">Preguntas</a></li>
@@ -1634,6 +1505,6 @@
     <span class="fab-text">Consultar</span>
   </a>
 
-  <script src="main.js?v=30" defer></script>
+  <script src="main.js?v=33" defer></script>
 </body>
 </html>
