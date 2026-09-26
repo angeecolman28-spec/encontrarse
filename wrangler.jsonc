@@ -1,0 +1,32 @@
+{
+  // Un solo Worker: sirve el sitio estatico, la ruta /api/* y el cron que
+  // sincroniza los calendarios de Airbnb, Booking y Google Calendar.
+  "name": "encontrarse",
+  "main": "src/index.js",
+  "compatibility_date": "2025-01-01",
+
+  // El sitio es la raiz del repo. Lo que no se publica va en .assetsignore
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+
+  // Almacen de la disponibilidad (no es un dato secreto: identifica el KV)
+  "kv_namespaces": [
+    { "binding": "DISPO", "id": "cd97df9bb000482fa306f9917fe268e0" }
+  ],
+
+  // Cada 30 minutos. Las plataformas actualizan cada 1 o 2 horas:
+  // mas seguido no aporta nada.
+  "triggers": {
+    "crons": ["*/30 * * * *"]
+  },
+
+  "observability": {
+    "enabled": true
+  }
+
+  // Los secretos (FEEDS, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID, REFRESH_KEY)
+  // se cargan en el panel de Cloudflare, nunca en este archivo.
+}

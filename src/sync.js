@@ -1,16 +1,14 @@
 /**
- * encontrarse-sync — Worker programado (Cloudflare)
+ * Sincronizacion de calendarios
  * ---------------------------------------------------------------------------
- * Cada 30 minutos baja los calendarios iCal de cada casa (Airbnb, Booking y
- * Google Calendar), los combina en un JSON con las fechas ocupadas, lo guarda
- * en KV y avisa por Telegram cuando algo cambia.
+ * Baja los iCal de cada casa (Airbnb, Booking y Google Calendar), los combina
+ * en un JSON con las fechas ocupadas, lo guarda en KV y avisa por Telegram
+ * cuando algo cambia. Lo llama el cron definido en wrangler.jsonc.
  *
- * Bindings que espera:
- *   DISPO             KV namespace
- *   FEEDS             (secreto) JSON con las casas y sus calendarios
- *   TELEGRAM_TOKEN    (secreto) token de @BotFather
- *   TELEGRAM_CHAT_ID  (secreto) chat o grupo donde avisar
- *   REFRESH_KEY       (secreto) clave para forzar una corrida a mano
+ * Secretos que espera:
+ *   FEEDS             JSON con las casas y sus calendarios
+ *   TELEGRAM_TOKEN    token de @BotFather
+ *   TELEGRAM_CHAT_ID  chat o grupo donde avisar
  *
  * Formato de FEEDS:
  * {
@@ -35,37 +33,12 @@ const MESES_ADELANTE = 18;
 const FALLAS_PARA_AVISAR = 3;
 const TIMEOUT_MS = 8000;
 
-export default {
-  async scheduled(event, env, ctx) {
-    ctx.waitUntil(sincronizar(env));
-  },
-
-  async fetch(request, env) {
-    const url = new URL(request.url);
-
-    if (url.pathname === "/refresh") {
-      if (!env.REFRESH_KEY || url.searchParams.get("key") !== env.REFRESH_KEY) {
-        return json({ error: "clave invalida" }, 401);
-      }
-      return json(await sincronizar(env));
-    }
-
-    if (url.pathname === "/health") {
-      const raw = await env.DISPO.get(KEY_PUBLICA);
-      if (!raw) return json({ estado: "sin-datos" }, 503);
-      const data = JSON.parse(raw);
-      const minutos = Math.round((Date.now() - Date.parse(data.actualizado)) / 60000);
-      return json({ estado: "ok", actualizado: data.actualizado, hace_minutos: minutos });
-    }
-
-    return new Response("encontrarse-sync", { status: 200 });
-  }
-};
-
-/* ------------------------------------------------------------ sincronizar */
-
-async function sincronizar(env) {
+export async function sincronizar(env) {
   const feeds = JSON.parse(env.FEEDS || "{}");
+  if (!Object.keys(feeds).length) {
+    return { ok: false, motivo: "falta el secreto FEEDS" };
+  }
+
   const estado = JSON.parse((await env.DISPO.get(KEY_ESTADO)) || "{}");
   const previo = JSON.parse((await env.DISPO.get(KEY_PUBLICA)) || "null");
 
@@ -114,6 +87,20 @@ async function sincronizar(env) {
   if (mensajes.length) await avisar(env, mensajes.join("\n\n"));
 
   return { ok: true, casas: Object.keys(casas).length, cambios: cambios.length, avisos: avisos.length };
+}
+
+export async function resumenEstado(env) {
+  const raw = await env.DISPO.get(KEY_PUBLICA);
+  if (!raw) return { estado: "sin-datos" };
+  const data = JSON.parse(raw);
+  const minutos = Math.round((Date.now() - Date.parse(data.actualizado)) / 60000);
+  const fuentes = {};
+  for (const [id, casa] of Object.entries(data.casas || {})) {
+    fuentes[id] = Object.entries(casa.fuentes || {}).map(function (f) {
+      return f[0] + ":" + f[1].estado;
+    }).join(" ");
+  }
+  return { estado: "ok", actualizado: data.actualizado, hace_minutos: minutos, fuentes: fuentes };
 }
 
 async function bajar(url) {
@@ -269,11 +256,4 @@ async function avisar(env, texto) {
   } catch (e) {
     /* que un aviso falle no puede romper la sincronizacion */
   }
-}
-
-function json(data, status) {
-  return new Response(JSON.stringify(data, null, 2), {
-    status: status || 200,
-    headers: { "content-type": "application/json; charset=utf-8" }
-  });
 }

@@ -1,0 +1,8 @@
+# Archivos del proyecto que no forman parte del sitio publicado.
+# (_headers y _redirects los toma Cloudflare aparte, no hace falta listarlos)
+src
+wrangler.jsonc
+.assetsignore
+.gitignore
+DEPLOY.md
+Identidad visual de encontrarse.pdf

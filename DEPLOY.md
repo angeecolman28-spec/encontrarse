@@ -1,67 +1,35 @@
 # Publicar Encontrarse en Cloudflare
 
-Tres piezas:
+Todo vive en **un solo Worker** (`encontrarse`), creado desde el repo de GitHub:
 
-| Pieza | Qué hace |
+| Parte | Archivo |
 |---|---|
-| **Pages** `encontrarse` | Sirve el sitio y la ruta `/api/disponibilidad` |
-| **Worker** `encontrarse-sync` | Cada 30 min baja los calendarios, guarda en KV y avisa por Telegram |
-| **KV** `encontrarse-disponibilidad` | El JSON compartido entre los dos |
+| Configuración | `wrangler.jsonc` |
+| Sitio estático | la raíz del repo (lo que no se publica está en `.assetsignore`) |
+| Rutas `/api/*` | `src/index.js` |
+| Sincronización de calendarios + Telegram | `src/sync.js` |
+| Almacén de fechas | KV `encontrarse-disponibilidad` |
 
-Pages no puede correr tareas programadas: por eso el cron vive en un Worker aparte.
+El cron corre dentro del mismo Worker cada 30 minutos.
 
 ---
 
-## 1. Subir el proyecto a GitHub
+## 1. Crear el Worker desde el repo
 
-En la carpeta del proyecto:
+Panel de Cloudflare → **Compute** → **Workers** → **Create** → **Import a repository**.
 
-```bash
-git init
-git add .
-git commit -m "Sitio Encontrarse"
-git branch -M main
-git remote add origin https://github.com/USUARIO/encontrarse.git
-git push -u origin main
-```
-
-`.gitignore` ya deja afuera la guía de marca en PDF (22 MB) y los archivos de trabajo local.
-
-## 2. Crear el proyecto en Pages
-
-**Workers & Pages → Create → Pages → Connect to Git**, elegir el repo y configurar:
-
-- Framework preset: **None**
+- Repositorio: `angeecolman28-spec/encontrarse`
+- Project name: `encontrarse`
 - Build command: **vacío**
-- Build output directory: **`/`**
+- Deploy command: `npx wrangler deploy` (viene por defecto)
 
-Es un sitio estático: no hay nada que compilar. Cada push a `main` publica; las otras ramas generan vistas previas.
+Deploy. Cloudflare lee `wrangler.jsonc`, sube el sitio, publica las rutas y registra el cron.
 
-En **Custom domains** agregar `encontrarse.uy`.
+Queda en `https://encontrarse.<tu-subdominio>.workers.dev`.
 
-El archivo `_headers` (cabeceras de seguridad) y `404.html` funcionan automáticamente.
+## 2. Cargar los secretos
 
-## 3. Crear el almacén KV
-
-**Storage & Databases → KV → Create namespace**, nombre `encontrarse-disponibilidad`. Anotar el ID.
-
-Vincularlo al proyecto de Pages: **Settings → Bindings → Add → KV namespace**
-
-- Variable name: `DISPO`
-- KV namespace: `encontrarse-disponibilidad`
-
-Después de agregar el binding hay que volver a publicar (Deployments → Retry deployment) para que la función lo vea.
-
-## 4. Crear el Worker
-
-**Workers & Pages → Create → Worker**, nombre `encontrarse-sync`. Editar y pegar el contenido de [`worker/sync.js`](worker/sync.js). Deploy.
-
-Después, en **Settings** del Worker:
-
-**Bindings → KV namespace**
-- Variable name: `DISPO` → `encontrarse-disponibilidad`
-
-**Variables and Secrets** (todas como *Secret*, encriptadas):
+En el Worker → **Settings** → **Variables and Secrets** → Add, tipo **Secret**:
 
 | Nombre | Valor |
 |---|---|
@@ -70,7 +38,7 @@ Después, en **Settings** del Worker:
 | `TELEGRAM_CHAT_ID` | El chat donde avisar |
 | `REFRESH_KEY` | Una clave inventada, larga |
 
-**Trigger Events → Cron Triggers → Add**: `*/30 * * * *`
+El KV ya queda vinculado por `wrangler.jsonc`: no hay que tocarlo a mano.
 
 ### El JSON de FEEDS
 
@@ -84,55 +52,54 @@ Después, en **Settings** del Worker:
       "calendar": "https://calendar.google.com/calendar/ical/XXXX/private-XXXX/basic.ics"
     }
   },
-  "casa-playa-grande": { "nombre": "Casa Playa Grande", "fuentes": { } },
-  "casa-del-pueblo": { "nombre": "Casa del Pueblo", "fuentes": { } },
-  "casa-dunas-chuy": { "nombre": "Casa Dunas", "fuentes": { } }
+  "casa-playa-grande": { "nombre": "Casa Playa Grande", "fuentes": {} },
+  "casa-del-pueblo": { "nombre": "Casa del Pueblo", "fuentes": {} },
+  "casa-dunas-chuy": { "nombre": "Casa Dunas", "fuentes": {} }
 }
 ```
 
 Las claves (`casa-la-viuda`, etc.) tienen que coincidir con los `id` de cada ficha en `index.html`.
 
-**Importante:** estos enlaces son direcciones secretas. Quien las tenga ve tus fechas bloqueadas. Por eso van como secreto del Worker y nunca en el repositorio.
+**Los enlaces `.ics` son direcciones secretas:** quien las tenga ve tus fechas bloqueadas. Por eso van como secreto y nunca en el repositorio.
 
-### De dónde salen los enlaces
+### De dónde salen
 
 - **Airbnb:** Calendario → la casa → Disponibilidad → Sincronizar calendarios → Exportar calendario.
 - **Booking:** Extranet → Tarifas y disponibilidad → Sincronización de calendarios → Exportar.
-- **Google Calendar:** una agenda por casa → Configuración de la agenda → Integrar calendario → Dirección secreta en formato iCal.
+- **Google Calendar:** una agenda por casa → Configuración → Integrar calendario → Dirección secreta en formato iCal.
 
 En Google se anotan las reservas directas (las de WhatsApp). Esa misma agenda conviene importarla en Airbnb y en Booking para que también bloqueen.
 
-## 5. Telegram
+## 3. Telegram
 
 1. Escribirle a **@BotFather** → `/newbot` → guarda el token.
 2. Escribirle `/start` al bot nuevo.
 3. Abrir `https://api.telegram.org/bot<TOKEN>/getUpdates` y buscar `"chat":{"id":...}`.
-4. Cargar token y chat id como secretos del Worker.
+4. Cargar token y chat id como secretos.
 
 Para un grupo: agregar el bot al grupo y usar el id del grupo (empieza con `-100`).
 
-## 6. Probar
+## 4. Dominio propio
 
-```
-https://encontrarse-sync.<tu-subdominio>.workers.dev/refresh?key=TU_REFRESH_KEY
-```
+Worker → **Settings** → **Domains & Routes** → **Add** → Custom domain → `encontrarse.uy`.
 
-Devuelve cuántas casas procesó. Después:
+## 5. Probar
 
-```
-https://encontrarse.uy/api/disponibilidad
-```
+| URL | Qué tiene que devolver |
+|---|---|
+| `/api/refresh?key=TU_REFRESH_KEY` | `{"ok":true,"casas":4,...}` |
+| `/api/disponibilidad` | El JSON con las fechas ocupadas |
+| `/api/health` | Hace cuántos minutos se actualizó y el estado de cada calendario |
 
-Tiene que mostrar el JSON con las fechas. En la web, el calendario de cada casa deja de decir "Datos de ejemplo".
+En la web, el calendario de cada casa deja de decir "Datos de ejemplo".
 
-- `/health` en el Worker dice hace cuánto se actualizó.
-- Los registros en vivo están en **Observability → Logs** del Worker.
+Los registros en vivo están en **Observability → Logs** del Worker.
 
-## Mientras no esté conectado
-
-La web usa `assets/data/disponibilidad-ejemplo.json` y avisa en pantalla que son datos de ejemplo. Cuando `/api/disponibilidad` devuelve casas, ese archivo deja de usarse (se puede borrar).
+---
 
 ## Notas
 
-- `worker/sync.js` queda publicado en `https://encontrarse.uy/worker/sync.js`. No tiene secretos, pero si preferís que no se vea, el Worker puede vivir en otro repositorio.
-- Costo: todo dentro del plan gratuito. El cron escribe 48 veces por día contra un tope de 1.000.
+- **Mientras no haya datos:** la web usa `assets/data/disponibilidad-ejemplo.json` y avisa en pantalla que son de ejemplo. Cuando `/api/disponibilidad` devuelve casas, ese archivo deja de usarse (se puede borrar).
+- **Cada push a `main`** republica el sitio automáticamente.
+- **`_headers`** (cabeceras de seguridad) y `404.html` se aplican solos.
+- **Costo:** dentro del plan gratuito. El cron escribe 48 veces por día contra un tope de 1.000.
