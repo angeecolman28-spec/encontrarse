@@ -1058,7 +1058,7 @@
         caja.textContent = "";
         var msg = document.createElement("p");
         msg.className = "cal-msg";
-        msg.textContent = "Consultanos por WhatsApp y te confirmamos las fechas.";
+        msg.textContent = "Todavía sin conectar con Airbnb y Booking: escribinos y te confirmamos las fechas.";
         caja.appendChild(msg);
         return;
       }
