@@ -22,6 +22,15 @@
  *   }
  * }
  *
+ * Una agenda compartida por varias casas se filtra por el titulo del evento:
+ *
+ *   "calendar": { "url": "https://...basic.ics", "contiene": "La Viuda" }
+ *
+ * "contiene" acepta un texto o una lista de alias. Se compara ignorando
+ * mayusculas, tildes y espacios de mas. Los eventos de esa agenda que no
+ * nombren a ninguna casa no bloquean nada, asi que se avisan por Telegram:
+ * ese es justamente el error que mas caro sale.
+ *
  * Claves en KV:
  *   disponibilidad  lo que lee la web (solo fechas, sin datos de huespedes)
  *   estado          uso interno: rangos por fuente y contador de fallas
@@ -46,17 +55,27 @@ export async function sincronizar(env) {
   const avisos = [];
   const fuentesEstado = estado.fuentes || {};
 
+  /* una misma agenda puede alimentar a varias casas: se baja una sola vez */
+  const descargas = new Map();
+  /* url compartida -> todos los alias que se declararon sobre ella */
+  const compartidas = new Map();
+
   for (const [id, casa] of Object.entries(feeds)) {
     const rangosPorFuente = {};
     const fuentes = {};
 
-    for (const [fuente, url] of Object.entries(casa.fuentes || {})) {
+    for (const [fuente, valor] of Object.entries(casa.fuentes || {})) {
       const clave = id + "|" + fuente;
       const guardado = fuentesEstado[clave] || {};
+      const cfg = fuenteConfig(valor);
+      if (cfg.alias.length) {
+        compartidas.set(cfg.url, (compartidas.get(cfg.url) || []).concat(cfg.alias));
+      }
       try {
-        const texto = await bajar(url);
-        rangosPorFuente[fuente] = eventosDeIcal(texto);
+        const texto = await bajarUnaVez(descargas, cfg.url);
+        rangosPorFuente[fuente] = eventosDeIcal(texto, cfg.alias);
         fuentes[fuente] = { estado: "ok", rangos: rangosPorFuente[fuente].length };
+        if (cfg.alias.length) fuentes[fuente].filtro = cfg.alias.join(" / ");
         if (guardado.fallas >= FALLAS_PARA_AVISAR) {
           avisos.push("✅ " + (casa.nombre || id) + ": el calendario de " + fuente + " volvió a responder.");
         }
@@ -78,15 +97,41 @@ export async function sincronizar(env) {
     casas[id] = { nombre: casa.nombre || id, ocupado: ocupado, fuentes: fuentes };
   }
 
+  /* Un evento mal escrito en la agenda compartida no bloquea nada y nadie se
+     entera hasta que hay dos reservas el mismo dia. Se avisa, pero solo
+     cuando la lista cambia: si no, llegaria el mismo mensaje cada media hora. */
+  const sueltos = [];
+  for (const [url, alias] of compartidas) {
+    const bajada = descargas.get(url);
+    if (!bajada || !bajada.texto) continue;
+    for (const evento of eventosCrudos(bajada.texto)) {
+      if (!coincide(evento.titulo, alias)) sueltos.push(evento);
+    }
+  }
+  const firma = sueltos.map(function (e) { return e.inicio + e.titulo; }).sort().join("|");
+  if (firma !== (estado.sueltos || "")) {
+    if (sueltos.length) {
+      const muestra = sueltos.slice(0, 5).map(function (e) {
+        return "«" + (e.titulo || "sin título") + "» (" + e.inicio + ")";
+      }).join(", ");
+      avisos.push("⚠️ En la agenda compartida hay " + sueltos.length +
+        (sueltos.length === 1 ? " evento que no nombra" : " eventos que no nombran") +
+        " a ninguna casa, así que no están bloqueando nada: " + muestra +
+        (sueltos.length > 5 ? " y " + (sueltos.length - 5) + " más" : "") + ".");
+    } else if (estado.sueltos) {
+      avisos.push("✅ Ya no quedan eventos sin casa en la agenda compartida.");
+    }
+  }
+
   const publico = { estado: "ok", actualizado: new Date().toISOString(), casas: casas };
   await env.DISPO.put(KEY_PUBLICA, JSON.stringify(publico));
-  await env.DISPO.put(KEY_ESTADO, JSON.stringify({ fuentes: fuentesEstado }));
+  await env.DISPO.put(KEY_ESTADO, JSON.stringify({ fuentes: fuentesEstado, sueltos: firma }));
 
   const cambios = diferencias(previo, publico);
   const mensajes = avisos.concat(cambios);
   if (mensajes.length) await avisar(env, mensajes.join("\n\n"));
 
-  return { ok: true, casas: Object.keys(casas).length, cambios: cambios.length, avisos: avisos.length };
+  return { ok: true, casas: Object.keys(casas).length, cambios: cambios.length, avisos: avisos.length, sueltos: sueltos.length };
 }
 
 export async function resumenEstado(env) {
@@ -103,6 +148,53 @@ export async function resumenEstado(env) {
   return { estado: "ok", actualizado: data.actualizado, hace_minutos: minutos, fuentes: fuentes };
 }
 
+/* Guarda el resultado por url, exito o error, para no pedir tres veces la
+   misma agenda ni esperar tres timeouts cuando esta caida. */
+async function bajarUnaVez(cache, url) {
+  if (cache.has(url)) {
+    const guardado = cache.get(url);
+    if (guardado.error) throw guardado.error;
+    return guardado.texto;
+  }
+  try {
+    const texto = await bajar(url);
+    cache.set(url, { texto: texto });
+    return texto;
+  } catch (error) {
+    cache.set(url, { error: error });
+    throw error;
+  }
+}
+
+/* Una fuente es una url suelta, o un objeto con url y los alias del titulo */
+function fuenteConfig(valor) {
+  if (typeof valor === "string") return { url: valor, alias: [] };
+  const crudo = valor ? valor.contiene : null;
+  const lista = Array.isArray(crudo) ? crudo : (crudo ? [crudo] : []);
+  return {
+    url: (valor && valor.url) || "",
+    alias: lista.map(normalizar).filter(Boolean)
+  };
+}
+
+/* sin tildes, sin mayusculas y sin espacios de mas: "Dos  Amores" = "dos amores" */
+function normalizar(texto) {
+  return String(texto || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function coincide(titulo, alias) {
+  if (!alias || !alias.length) return true;
+  const limpio = normalizar(titulo);
+  return alias.some(function (a) {
+    return limpio.indexOf(a) !== -1;
+  });
+}
+
 async function bajar(url) {
   const res = await fetch(url, {
     signal: AbortSignal.timeout(TIMEOUT_MS),
@@ -117,18 +209,27 @@ async function bajar(url) {
 
 /* Devuelve rangos [primeraNoche, ultimaNoche] en formato YYYY-MM-DD.
    En iCal DTEND es el dia de salida, que no se duerme: por eso se resta uno. */
-function eventosDeIcal(texto) {
+function eventosDeIcal(texto, alias) {
+  return eventosCrudos(texto)
+    .filter(function (e) { return coincide(e.titulo, alias); })
+    .map(function (e) { return [e.inicio, e.ultima]; });
+}
+
+/* Cada evento con su titulo, ya recortado a la ventana que nos interesa */
+function eventosCrudos(texto) {
   const lineas = desdoblar(texto);
-  const rangos = [];
+  const eventos = [];
   let dentro = false;
   let inicio = null;
   let fin = null;
+  let titulo = "";
   let cancelado = false;
 
   for (const linea of lineas) {
     if (linea === "BEGIN:VEVENT") {
       dentro = true;
       inicio = fin = null;
+      titulo = "";
       cancelado = false;
       continue;
     }
@@ -136,7 +237,7 @@ function eventosDeIcal(texto) {
     if (linea === "END:VEVENT") {
       if (!cancelado && inicio && fin) {
         const ultima = sumarDias(fin, -1);
-        if (ultima >= inicio) rangos.push([inicio, ultima]);
+        if (ultima >= inicio) eventos.push({ inicio: inicio, ultima: ultima, titulo: titulo });
       }
       dentro = false;
       continue;
@@ -144,15 +245,20 @@ function eventosDeIcal(texto) {
     if (linea.startsWith("STATUS:") && linea.includes("CANCELLED")) cancelado = true;
     if (linea.startsWith("DTSTART")) inicio = fecha(linea);
     if (linea.startsWith("DTEND")) fin = fecha(linea);
+    if (linea.startsWith("SUMMARY")) titulo = valorTexto(linea);
   }
 
   const desde = sumarDias(hoy(), -1);
   const hasta = sumarMeses(hoy(), MESES_ADELANTE);
-  return rangos.filter(function (r) {
-    return r[1] >= desde && r[0] <= hasta;
+  return eventos.filter(function (e) {
+    return e.ultima >= desde && e.inicio <= hasta;
   });
 }
 
+/* el iCal escapa comas y punto y coma dentro del texto */
+function valorTexto(linea) {
+  return linea.slice(linea.indexOf(":") + 1).replace(/\\([,;\\])/g, "$1").trim();
+}
 /* las lineas largas del iCal siguen en la siguiente, con un espacio adelante */
 function desdoblar(texto) {
   return texto.replace(/\r\n[ \t]/g, "").replace(/\n[ \t]/g, "").split(/\r?\n/);

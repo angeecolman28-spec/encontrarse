@@ -59,6 +59,49 @@ El KV ya queda vinculado por `wrangler.jsonc`: no hay que tocarlo a mano.
 
 Las claves (`casa-ohana`, etc.) tienen que coincidir con los `id` de cada ficha en `index.html`.
 
+### Una sola agenda de Google para todas las casas
+
+Si en vez de una agenda por casa hay una sola compartida, la fuente `calendar`
+se escribe como objeto, con la palabra que identifica a esa casa en el titulo
+del evento:
+
+```json
+{
+  "casa-ohana": {
+    "nombre": "Ohana",
+    "fuentes": {
+      "airbnb": "https://www.airbnb.com/calendar/ical/....ics",
+      "calendar": { "url": "https://calendar.google.com/...basic.ics", "contiene": "Ohana" }
+    }
+  },
+  "casa-dos-amores": {
+    "nombre": "Dos Amores",
+    "fuentes": {
+      "calendar": { "url": "https://calendar.google.com/...basic.ics", "contiene": "Dos Amores" }
+    }
+  }
+}
+```
+
+La misma url va repetida en cada casa, con distinto `contiene`. El Worker la
+baja una sola vez.
+
+La comparacion ignora mayusculas, tildes y espacios de mas: `Ohana`, `ohana` y
+`OHANA` son lo mismo, y `Dós  Amóres` tambien entra. Basta con que el nombre
+aparezca en algun lado del titulo, aunque lo normal sea `Ohana - Martin`.
+
+Si alguna casa se anota de varias formas, se pasa una lista:
+
+```json
+"contiene": ["Dos Amores", "2 Amores"]
+```
+
+**El riesgo de este modo:** un evento cuyo titulo no nombre a ninguna casa no
+bloquea nada, y la web muestra esa fecha libre. Por eso el Worker los busca en
+cada pasada y avisa por Telegram cuando encuentra alguno, una sola vez por
+cambio y no cada media hora. El aviso dice el titulo y la fecha, para corregirlo
+en Google y listo.
+
 **Los enlaces `.ics` son direcciones secretas:** quien las tenga ve tus fechas bloqueadas. Por eso van como secreto y nunca en el repositorio.
 
 ### De dónde salen los enlaces .ics
@@ -90,9 +133,15 @@ habilitada: se pide por el chat de soporte de la Extranet.
 
 **Google Calendar** (para las reservas directas, las de WhatsApp)
 
-1. Crear **una agenda por casa** (Otras agendas → + → Crear agenda nueva).
+1. Crear **una agenda por casa** (Otras agendas → + → Crear agenda nueva), o
+   una sola compartida: ver más abajo cómo se configura cada caso.
 2. Abrirla en **Configuración y uso compartido**.
 3. Bajar hasta **Integrar calendario** → copiar **Dirección secreta en formato iCal**.
+
+Cada reserva se anota como evento de todo el día, **desde el día de llegada
+hasta la última noche**, no hasta el día de salida. Si llegan el 10 y se van el
+13, el evento va del 10 al 12: son tres noches. Un día de más ahí es una noche
+que la web muestra ocupada sin estarlo.
 
 Queda algo así:
 `https://calendar.google.com/calendar/ical/.../private-.../basic.ics`
