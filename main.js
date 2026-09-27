@@ -501,7 +501,11 @@
     if (!cantidad) return etiqueta;
     var n = parseInt(cantidad, 10);
     if (!isFinite(n)) return etiqueta + " · " + cantidad;
-    return etiqueta + " · " + n + (n === 1 ? " reseña" : " reseñas");
+    /* en Booking se llaman comentarios; en Airbnb, resenas */
+    var palabra = fuente === "booking"
+      ? (n === 1 ? " comentario" : " comentarios")
+      : (n === 1 ? " reseña" : " reseñas");
+    return etiqueta + " · " + n + palabra;
   }
 
   function armarChip(el) {
