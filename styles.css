@@ -2081,10 +2081,6 @@ html.js .cta-actions--nojs {
   .quote-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  .quote-actions {
-    grid-template-columns: 1.4fr 1fr;
-  }
 }
 
 @media (min-width: 921px) {
@@ -2495,10 +2491,6 @@ html.no-js .fab {
   }
 
   .mapa-links {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .book-actions {
     grid-template-columns: 1fr 1fr;
   }
 

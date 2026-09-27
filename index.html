@@ -32,14 +32,13 @@
     "description": "Tres casas de alquiler temporario en Punta del Diablo, Rocha, Uruguay.",
     "url": "https://encontrarse.puntadeldiablo.workers.dev/",
     "image": "https://encontrarse.puntadeldiablo.workers.dev/assets/img/og-encontrarse.jpg",
-    "email": "hola@encontrarse.uy",
-    "telephone": "+598 99 123 456",
+    "telephone": "+598 98 727 289",
     "priceRange": "USD 60 – USD 170 por noche",
     "currenciesAccepted": "USD, UYU, BRL",
     "paymentAccepted": "Transferencia bancaria, efectivo",
     "checkinTime": "15:00",
     "checkoutTime": "10:00",
-    "sameAs": ["https://instagram.com/encontrarse.pdd"],
+    "sameAs": ["https://instagram.com/encontrarse_en_pdd"],
     "areaServed": "Punta del Diablo",
     "address": {
       "@type": "PostalAddress",
@@ -109,7 +108,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Sacramento&family=Unica+One&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=42">
+  <link rel="stylesheet" href="styles.css?v=43">
 </head>
 <body>
 
@@ -119,12 +118,11 @@
   ----------------------------------------------------------------------------
   Buscar y reemplazar en TODO el proyecto (index.html, legales.html):
 
-    59899123456          -> numero de WhatsApp real, formato internacional
-                            sin + ni espacios. Ej: 59899123456
-    +598 99 123 456      -> el mismo numero, como se muestra en pantalla
-    hola@encontrarse.uy  -> casilla de mail real
-    encontrarse.uy       -> dominio real
-    instagram.com/encontrarse.pdd -> tomado de la guia de marca, confirmar
+    encontrarse.uy       -> dominio propio, cuando se compre
+
+  El contacto es solo por WhatsApp (+598 98 727 289), telefono e Instagram
+  (@encontrarse_en_pdd). No se usa mail: no agregar direcciones de correo
+  ni botones de "escribir un mail" en ningun lado.
 
   Identidad (guia "Identidad visual de encontrarse.pdf"):
     - Logo e isotipo en assets/brand/ (isotipo.svg, isotipo-blanco.svg,
@@ -151,8 +149,8 @@
         * bajada: <p data-rep-sub="180 estadias verificadas">
         * cada <figure data-voz> aparece cuando su cita deja de decir
           PENDIENTE. NO inventar opiniones ni puntajes.
-    - Formulario de consulta (id="quote"): el numero de WhatsApp y el mail
-      estan en data-wa y data-mail. Las temporadas y sus estadias minimas
+    - Formulario de consulta (id="quote"): el numero de WhatsApp esta en
+      data-wa. Las temporadas y sus estadias minimas
       estan en <script id="quote-config"> (formato MM-DD). Las fechas de
       Carnaval cambian cada ano: hay que actualizarlas.
     - Mascotas por casa: en "Antes de venir" cada casa tiene
@@ -201,8 +199,7 @@
       <a href="#reservas" class="overlay-cta"><span>06</span>Reservar</a>
     </nav>
     <div class="overlay-foot">
-      <a class="overlay-wa" href="https://wa.me/59899123456?text=Hola!%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener">WhatsApp +598 99 123 456</a>
-      <a href="mailto:hola@encontrarse.uy">hola@encontrarse.uy</a>
+      <a class="overlay-wa" href="https://wa.me/59898727289?text=Hola!%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener">WhatsApp +598 98 727 289</a>
       <span>Punta del Diablo &middot; Rocha</span>
     </div>
   </div>
@@ -496,8 +493,7 @@
             </div>
 
             <div class="book-actions">
-              <a class="btn btn--wa" href="https://wa.me/59899123456?text=Hola%21%20Me%20interesa%20Ohana%20en%20Punta%20del%20Diablo.%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Consultar por WhatsApp</a>
-              <a class="btn btn--solid" href="mailto:hola@encontrarse.uy?subject=Consulta%20por%20Ohana">Escribir un mail</a>
+              <a class="btn btn--wa" href="https://wa.me/59898727289?text=Hola%21%20Me%20interesa%20Ohana%20en%20Punta%20del%20Diablo.%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Consultar por WhatsApp</a>
             </div>
 
             <div class="rep-row" data-rep-row hidden>
@@ -639,8 +635,7 @@
             </div>
 
             <div class="book-actions">
-              <a class="btn btn--wa" href="https://wa.me/59899123456?text=Hola%21%20Me%20interesa%20Dos%20Amores%20en%20Punta%20del%20Diablo.%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Consultar por WhatsApp</a>
-              <a class="btn btn--solid" href="mailto:hola@encontrarse.uy?subject=Consulta%20por%20Dos%20Amores">Escribir un mail</a>
+              <a class="btn btn--wa" href="https://wa.me/59898727289?text=Hola%21%20Me%20interesa%20Dos%20Amores%20en%20Punta%20del%20Diablo.%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Consultar por WhatsApp</a>
             </div>
 
             <div class="rep-row" data-rep-row hidden>
@@ -772,8 +767,7 @@
             </div>
 
             <div class="book-actions">
-              <a class="btn btn--wa" href="https://wa.me/59899123456?text=Hola%21%20Me%20interesa%20Solale%20en%20Punta%20del%20Diablo.%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Consultar por WhatsApp</a>
-              <a class="btn btn--solid" href="mailto:hola@encontrarse.uy?subject=Consulta%20por%20Solale">Escribir un mail</a>
+              <a class="btn btn--wa" href="https://wa.me/59898727289?text=Hola%21%20Me%20interesa%20Solale%20en%20Punta%20del%20Diablo.%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Consultar por WhatsApp</a>
             </div>
 
             <div class="rep-row" data-rep-row hidden>
@@ -811,7 +805,7 @@
           Contanos cu&aacute;ndo ven&iacute;s y cu&aacute;ntos son: te respondemos nosotros, con la disponibilidad y el total exacto.
         </p>
 
-        <form class="quote" id="quote" data-wa="59899123456" data-mail="hola@encontrarse.uy" novalidate>
+        <form class="quote" id="quote" data-wa="59898727289" novalidate>
           <script type="application/json" id="quote-config">
             {
               "minNoches": 2,
@@ -858,20 +852,18 @@
 
           <div class="quote-actions">
             <button type="submit" class="btn btn--wa btn--wa-lg"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Enviar por WhatsApp</button>
-            <a class="btn btn--quiet" href="mailto:hola@encontrarse.uy?subject=Consulta%20de%20disponibilidad" data-quote-mail>Enviar por mail</a>
           </div>
-          <p class="quote-note">La web no guarda ni env&iacute;a nada: se abre WhatsApp o tu correo con el mensaje listo, y lo mand&aacute;s vos. El total exacto te lo confirmamos al responder.</p>
+          <p class="quote-note">La web no guarda ni env&iacute;a nada: se abre WhatsApp con el mensaje listo, y lo mand&aacute;s vos. El total exacto te lo confirmamos al responder.</p>
         </form>
 
         <div class="cta-actions cta-actions--nojs">
-          <a class="btn btn--wa btn--wa-lg" href="https://wa.me/59899123456?text=Hola!%20Quisiera%20consultar%20disponibilidad%20en%20Encontrarse." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Escribir por WhatsApp</a>
+          <a class="btn btn--wa btn--wa-lg" href="https://wa.me/59898727289?text=Hola!%20Quisiera%20consultar%20disponibilidad%20en%20Encontrarse." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Escribir por WhatsApp</a>
           <a class="btn btn--ghost-light" href="#casas">Ver las casas</a>
         </div>
 
         <ul class="channels" aria-label="Otras formas de contacto">
-          <li><a href="mailto:hola@encontrarse.uy">hola@encontrarse.uy</a></li>
-          <li><a href="tel:+59899123456">+598 99 123 456</a></li>
-          <li><a href="https://instagram.com/encontrarse.pdd" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="tel:+59898727289">+598 98 727 289</a></li>
+          <li><a href="https://instagram.com/encontrarse_en_pdd" target="_blank" rel="noopener">Instagram</a></li>
         </ul>
 
         <p class="cta-foot">Tambi&eacute;n estamos en Airbnb y Booking.com &mdash; si prefer&iacute;s reservar con tu cuenta de siempre, pedinos el link de la casa que te guste.</p>
@@ -1160,7 +1152,7 @@
       <div class="faq-list" data-reveal>
         <details class="faq-item">
           <summary>&iquest;C&oacute;mo reservo una casa?<span class="faq-mark" aria-hidden="true"></span></summary>
-          <div class="faq-body"><p>Escribinos por WhatsApp o mail con las fechas y cu&aacute;ntos son. Te confirmamos disponibilidad, el total exacto y c&oacute;mo dejar la se&ntilde;a. La reserva queda firme cuando se acredita.</p></div>
+          <div class="faq-body"><p>Escribinos por WhatsApp con las fechas y cu&aacute;ntos son. Te confirmamos disponibilidad, el total exacto y c&oacute;mo dejar la se&ntilde;a. La reserva queda firme cuando se acredita.</p></div>
         </details>
         <details class="faq-item">
           <summary>&iquest;Cu&aacute;nto es la se&ntilde;a?<span class="faq-mark" aria-hidden="true"></span></summary>
@@ -1228,9 +1220,8 @@
         <div class="footer-col" data-reveal data-delay="1">
           <p class="footer-h">Contacto</p>
           <ul>
-            <li><a href="mailto:hola@encontrarse.uy">hola@encontrarse.uy</a></li>
-            <li><a href="https://wa.me/59899123456?text=Hola!%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener">WhatsApp +598 99 123 456</a></li>
-            <li><a href="tel:+59899123456">Llamar +598 99 123 456</a></li>
+            <li><a href="https://wa.me/59898727289?text=Hola!%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener">WhatsApp +598 98 727 289</a></li>
+            <li><a href="tel:+59898727289">Llamar +598 98 727 289</a></li>
             <li><span>Ruta 9, km 298</span></li>
             <li><span>Punta del Diablo, Rocha</span></li>
           </ul>
@@ -1239,35 +1230,34 @@
         <div class="footer-col" data-reveal data-delay="2">
           <p class="footer-h">Seguir</p>
           <ul>
-            <li><a href="https://instagram.com/encontrarse.pdd" target="_blank" rel="noopener">Instagram</a></li>
-            <li><a href="https://wa.me/59899123456" target="_blank" rel="noopener">WhatsApp</a></li>
-            <li><a href="mailto:hola@encontrarse.uy">Correo</a></li>
+            <li><a href="https://instagram.com/encontrarse_en_pdd" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://wa.me/59898727289" target="_blank" rel="noopener">WhatsApp</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-letter" data-reveal data-delay="1">
         <p>La costa, mes a mes: las casas, el mar y lo que pasa en el pueblo.</p>
-        <a class="footer-sub" href="https://instagram.com/encontrarse.pdd" target="_blank" rel="noopener">Seguinos en Instagram <span aria-hidden="true">→</span></a>
+        <a class="footer-sub" href="https://instagram.com/encontrarse_en_pdd" target="_blank" rel="noopener">Seguinos en Instagram <span aria-hidden="true">→</span></a>
       </div>
     </div>
 
     <div class="footer-wordmark" aria-hidden="true">ENCONTRARSE</div>
 
     <div class="footer-bottom">
-      <span>© 2026 Encontrarse &middot; Casas en Punta del Diablo &middot; <a href="https://instagram.com/encontrarse.pdd" target="_blank" rel="noopener">@encontrarse.pdd</a></span>
+      <span>© 2026 Encontrarse &middot; Casas en Punta del Diablo &middot; <a href="https://instagram.com/encontrarse_en_pdd" target="_blank" rel="noopener">@encontrarse_en_pdd</a></span>
       <span class="footer-links"><a href="legales.html#terminos">Términos</a> · <a href="legales.html#privacidad">Privacidad</a></span>
     </div>
   </footer>
 
 
   <a class="fab" id="waFab"
-     href="https://wa.me/59899123456?text=Hola!%20Quisiera%20consultar%20disponibilidad%20en%20Encontrarse."
+     href="https://wa.me/59898727289?text=Hola!%20Quisiera%20consultar%20disponibilidad%20en%20Encontrarse."
      target="_blank" rel="noopener" aria-label="Consultar por WhatsApp">
     <svg class="i-wa" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg>
     <span class="fab-text">Consultar</span>
   </a>
 
-  <script src="main.js?v=42" defer></script>
+  <script src="main.js?v=43" defer></script>
 </body>
 </html>

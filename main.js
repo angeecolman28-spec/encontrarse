@@ -656,9 +656,7 @@
     var outTotal = form.querySelector("[data-quote-total]");
     var outDetail = form.querySelector("[data-quote-detail]");
     var outWarn = form.querySelector("[data-quote-warn]");
-    var mailLink = form.querySelector("[data-quote-mail]");
     var waNumber = form.getAttribute("data-wa");
-    var mail = form.getAttribute("data-mail");
 
     /* la capacidad se lee de cada ficha: una sola fuente de datos */
     var houses = {};
@@ -807,11 +805,6 @@
       outWarn.textContent = alertas.join(" ");
       outWarn.hidden = !alertas.length;
 
-      if (mailLink) {
-        mailLink.href =
-          "mailto:" + mail + "?subject=" + encodeURIComponent("Consulta de disponibilidad" + (s.house ? " — " + s.house.name : "")) +
-          "&body=" + encodeURIComponent(message(s));
-      }
       return s;
     }
 
