@@ -61,13 +61,62 @@ Las claves (`casa-ohana`, etc.) tienen que coincidir con los `id` de cada ficha 
 
 **Los enlaces `.ics` son direcciones secretas:** quien las tenga ve tus fechas bloqueadas. Por eso van como secreto y nunca en el repositorio.
 
-### De dónde salen
+### De dónde salen los enlaces .ics
 
-- **Airbnb:** Calendario → la casa → Disponibilidad → Sincronizar calendarios → Exportar calendario.
-- **Booking:** Extranet → Tarifas y disponibilidad → Sincronización de calendarios → Exportar.
-- **Google Calendar:** una agenda por casa → Configuración → Integrar calendario → Dirección secreta en formato iCal.
+Hay que sacar un enlace por casa y por plataforma. Los nombres de los menús
+cambian cada tanto, pero el camino es siempre el mismo.
 
-En Google se anotan las reservas directas (las de WhatsApp). Esa misma agenda conviene importarla en Airbnb y en Booking para que también bloqueen.
+**Airbnb** (desde la computadora, no desde la app)
+
+1. Entrar como anfitriona → **Calendario**.
+2. Elegir el anuncio arriba a la izquierda.
+3. En la columna de la derecha: **Disponibilidad** → **Sincronizar calendarios**
+   (o "Conectar con otro sitio web").
+4. **Exportar calendario** → copiar el enlace.
+
+Queda algo así: `https://www.airbnb.com/calendar/ical/24905547.ics?s=...`
+
+**Booking.com** (Extranet)
+
+1. Entrar a admin.booking.com y elegir la propiedad.
+2. **Tarifas y disponibilidad** → **Sincronización de calendarios**
+   (a veces figura como "Calendar sync" o "Conectividad iCal").
+3. En **Exportar calendario**, copiar el enlace de la unidad/habitación.
+
+Queda algo así: `https://ical.booking.com/v1/export?t=...`
+
+Si el menú no aparece, la propiedad todavía no tiene la sincronización iCal
+habilitada: se pide por el chat de soporte de la Extranet.
+
+**Google Calendar** (para las reservas directas, las de WhatsApp)
+
+1. Crear **una agenda por casa** (Otras agendas → + → Crear agenda nueva).
+2. Abrirla en **Configuración y uso compartido**.
+3. Bajar hasta **Integrar calendario** → copiar **Dirección secreta en formato iCal**.
+
+Queda algo así:
+`https://calendar.google.com/calendar/ical/.../private-.../basic.ics`
+
+Ojo: la agenda tarda unas horas en reflejar cambios recientes en el .ics. Para
+una reserva directa de último momento conviene bloquearla también a mano en
+Airbnb o Booking.
+
+### Que las plataformas se bloqueen entre ellas
+
+El sitio solo *muestra* las fechas. Para que una reserva de Booking no se pueda
+volver a vender en Airbnb, cada plataforma tiene que importar los calendarios de
+las otras, en la misma pantalla donde se exporta:
+
+- En Airbnb, **Importar calendario**: pegar el de Booking y el de Google.
+- En Booking, **Importar calendario**: pegar el de Airbnb y el de Google.
+
+Es decir: cada enlace se pega dos veces, una en el `FEEDS` del Worker y otra en
+la otra plataforma.
+
+### Probar un enlace antes de cargarlo
+
+Pegarlo en el navegador: si descarga un archivo de texto que empieza con
+`BEGIN:VCALENDAR`, sirve. Si pide iniciar sesión o da error, está mal copiado.
 
 ## 3. Telegram
 
