@@ -788,14 +788,16 @@
         var partes = [];
         if (s.temporadas.length) partes.push(s.temporadas.join(" y "));
         if (s.house) {
-          partes.push(hayChoque(s.houseId, fIn.value, fOut.value) ? "figura ocupada" : "figura libre");
+          if (!conectada(s.houseId)) partes.push("consultanos la disponibilidad");
+          else partes.push(hayChoque(s.houseId, fIn.value, fOut.value) ? "figura ocupada" : "figura libre");
         } else {
-          var libres = Object.keys(houses).filter(function (id) {
-            return (!s.guests || houses[id].capacity >= s.guests) && !hayChoque(id, fIn.value, fOut.value);
+          var candidatas = Object.keys(houses).filter(function (id) {
+            return (!s.guests || houses[id].capacity >= s.guests) && conectada(id);
           });
-          partes.push(textoLibres(libres, Object.keys(houses).filter(function (id) {
-            return !s.guests || houses[id].capacity >= s.guests;
-          })));
+          var libres = candidatas.filter(function (id) {
+            return !hayChoque(id, fIn.value, fOut.value);
+          });
+          partes.push(textoLibres(libres, candidatas));
         }
         outDetail.textContent = partes.join(" · ");
         outDetail.hidden = false;
@@ -898,6 +900,14 @@
       if (iso >= rangos[i][0] && iso <= rangos[i][1]) return true;
     }
     return false;
+  }
+
+  /* Una casa sin ningun calendario cargado no esta "libre": no sabemos nada
+     de ella. Hay que distinguirla de la que si esta conectada y no tiene
+     reservas, o el sitio afirmaria disponibilidad que nadie verifico. */
+  function conectada(casaId) {
+    var casa = DISPO && DISPO.casas ? DISPO.casas[casaId] : null;
+    return !!(casa && casa.fuentes && Object.keys(casa.fuentes).length);
   }
 
   /* las noches ocupadas van de la llegada al dia anterior a la salida */
@@ -1058,7 +1068,7 @@
   function pintarCalendarios() {
     document.querySelectorAll("[data-cal]").forEach(function (caja) {
       var casaId = caja.getAttribute("data-cal");
-      if (!DISPO || !DISPO.casas[casaId]) {
+      if (!DISPO || !DISPO.casas[casaId] || !conectada(casaId)) {
         caja.textContent = "";
         var msg = document.createElement("p");
         msg.className = "cal-msg";
@@ -1077,6 +1087,11 @@
       if (!DISPO) return;
       var casaId = chip.getAttribute("data-disp");
       if (!DISPO.casas[casaId]) return;
+      if (!conectada(casaId)) {
+        chip.classList.remove("disp--libre", "disp--pocas", "disp--completa");
+        chip.textContent = "Consultanos las fechas";
+        return;
+      }
 
       var hoy = isoHoy();
       var sucias = 0;
