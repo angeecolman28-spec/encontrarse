@@ -29,8 +29,29 @@
       var pct = height > 0 ? window.scrollY / height : 0;
       scrollProgress.style.transform = "scaleX(" + pct.toFixed(4) + ")";
     }
-    if (fab) fab.classList.toggle("is-in", window.scrollY > window.innerHeight * 0.6);
+    if (fab) {
+      fab.classList.toggle("is-in", window.scrollY > window.innerHeight * 0.6 && fabTapado === 0);
+    }
   }
+
+  /* El boton flotante se esconde donde ya hay un WhatsApp a mano (bloque de
+     reserva, formulario, pie): ahi sobraba y tapaba botones y enlaces. */
+  var fabTapado = 0;
+  if (fab && "IntersectionObserver" in window) {
+    var fabIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var antes = entry.target.getAttribute("data-fab-tapa") === "1";
+        if (entry.isIntersecting === antes) return;
+        entry.target.setAttribute("data-fab-tapa", entry.isIntersecting ? "1" : "0");
+        fabTapado += entry.isIntersecting ? 1 : -1;
+      });
+      onScrollHeader();
+    }, { rootMargin: "0px 0px -80px 0px" });
+    document.querySelectorAll(".book, .quote, .footer").forEach(function (el) {
+      fabIO.observe(el);
+    });
+  }
+
   onScrollHeader();
   window.addEventListener("scroll", onScrollHeader, { passive: true });
 

@@ -1958,7 +1958,7 @@ html.js .cta-actions--nojs {
 
 .quote-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -1984,6 +1984,8 @@ html.js .cta-actions--nojs {
 .field input[type="number"],
 .field select {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   min-height: 3rem;
   padding: 0.55rem 0.8rem;
   border: 1px solid var(--line);
@@ -2079,7 +2081,7 @@ html.js .cta-actions--nojs {
 
 @media (min-width: 641px) {
   .quote-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -2902,11 +2904,30 @@ body.menu-open .brand-place,
      uno lateral para que el titulo se lea sobre el mar */
   background:
     linear-gradient(180deg, rgba(30, 48, 70, 0.45) 0%, rgba(30, 48, 70, 0.1) 28%, rgba(30, 48, 70, 0.2) 55%, rgba(30, 48, 70, 0.72) 100%),
-    linear-gradient(90deg, rgba(30, 48, 70, 0.5) 0%, rgba(30, 48, 70, 0.18) 45%, rgba(30, 48, 70, 0) 70%);
+    linear-gradient(90deg, rgba(30, 48, 70, 0.64) 0%, rgba(30, 48, 70, 0.42) 34%, rgba(30, 48, 70, 0.12) 58%, rgba(30, 48, 70, 0) 72%);
+}
+
+.hero-sub {
+  text-shadow: 0 1px 14px rgba(20, 32, 46, 0.55);
+}
+
+/* en celular la foto se recorta a lo alto y el faro caia justo detras del
+   titulo: se corre el encuadre y se oscurece mas la franja del texto */
+@media (max-width: 640px) {
+  .hero-scrim {
+    background:
+      linear-gradient(180deg, rgba(30, 48, 70, 0.45) 0%, rgba(30, 48, 70, 0.3) 24%, rgba(30, 48, 70, 0.5) 50%, rgba(30, 48, 70, 0.78) 100%);
+  }
 }
 
 .hero-media img {
   object-position: 30% 50%;
+}
+
+@media (max-width: 640px) {
+  .hero-media img {
+    object-position: 8% 50%;
+  }
 }
 
 .hero-content {
@@ -3872,7 +3893,7 @@ html.no-js .hero-actions {
 
 @media (min-width: 1180px) {
   .casas-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -3902,6 +3923,34 @@ html.no-js .hero-actions {
 
   .book-actions {
     max-width: 34rem;
+  }
+
+  /* a todo el ancho el calendario quedaba gigante (casillas de 160px):
+     precio y botones a la izquierda, calendario en su propia columna */
+  .book {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(19rem, 25rem);
+    grid-template-rows: repeat(5, auto) 1fr;
+    column-gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  .book > * {
+    grid-column: 1;
+  }
+
+  .book > .book-cal {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    margin-top: 0;
+    padding-top: 0;
+    padding-left: clamp(2rem, 4vw, 3.5rem);
+    border-top: 0;
+    border-left: 1px solid rgba(250, 249, 247, 0.18);
+  }
+
+  .book > .map-btn {
+    justify-self: start;
   }
 }
 
@@ -3982,6 +4031,93 @@ html.no-js .hero-actions {
 }
 
 /* el enlace al formulario queda pegado al calendario */
-.book-cal + .book-quote {
+.book-cal .book-quote {
   margin-top: 1rem;
+}
+
+/* ==========================================================================
+   Ajustes de la auditoria visual (octubre 2026)
+   ========================================================================== */
+
+/* menos aire muerto entre secciones (antes llegaba a 11rem por lado) */
+:root {
+  --section-gap: clamp(4.5rem, 9vw, 8rem);
+}
+
+.highlights + .casas {
+  padding-top: clamp(1.5rem, 4vw, 3rem);
+}
+
+.cta + .resenas {
+  padding-top: clamp(3rem, 6vw, 5rem);
+}
+
+/* las tarjetas estiran el cuerpo: precio y boton quedan alineados abajo */
+.casa-card-body {
+  flex: 1;
+}
+
+/* cinco recomendaciones en grilla de 2 o 3: la ultima completa la fila
+   en vez de dejar una celda vacia */
+@media (min-width: 641px) {
+  .zona-item:last-child {
+    grid-column: span 2;
+  }
+}
+
+/* los cortes de linea pensados para escritorio dejaban palabras sueltas
+   ("Esto es lo / que / recomendamos") en el celular */
+@media (max-width: 640px) {
+  .h2 br,
+  .section-sub br,
+  .house-sub br {
+    display: none;
+  }
+}
+
+/* datos de la casa: el numero es lo que se busca, tiene que pesar mas */
+.specs .spec-value {
+  font-family: var(--font-title);
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+  line-height: 1.15;
+}
+
+/* el enlace al formulario con borde punteado parecia sin terminar */
+.book-quote {
+  border-style: solid;
+  border-radius: 99px;
+  padding: 0 1.3rem;
+}
+
+/* pie: debajo de 920px la grilla de 12 columnas metia todo en la primera,
+   y en escritorio las columnas de enlaces quedaban apretadas */
+.footer-cols {
+  grid-column: 6 / 13;
+}
+
+@media (max-width: 1080px) {
+  .footer-cols {
+    grid-column: 1 / 13;
+  }
+}
+
+@media (max-width: 920px) {
+  .footer-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer-cols {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+  }
+
+  .footer-letter p {
+    max-width: none;
+  }
 }

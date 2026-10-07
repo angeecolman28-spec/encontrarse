@@ -108,7 +108,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Sacramento&family=Unica+One&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=45">
+  <link rel="stylesheet" href="styles.css?v=47">
 </head>
 <body>
 
@@ -134,16 +134,16 @@
     - Tarifas: cada casa tiene su tabla <table class="price-table">.
       Los valores actuales son de referencia, ajustar por casa y temporada.
     - Fotos: la portada usa assets/img/banner-*.jpg (el archivo original es
-      "banner top.png", que no se publica). Las galerias de las tres casas y
-      el cierre siguen con fotos de Unsplash: reemplazar por fotos propias.
+      "banner top.png", que no se publica). Ohana y Dos Amores ya tienen fotos
+      propias; Solale (tarjeta y galeria) y el fondo de "Consultar
+      disponibilidad" siguen con fotos de Unsplash: reemplazar por propias y
+      despues sacar images.unsplash.com del CSP (_headers) y del preconnect.
     - Resenas por casa: en cada ficha hay dos <a class="rep-chip" data-rep=...>
       con data-score="4.92|47" (puntaje|cantidad) y data-url al anuncio.
       Mientras digan PENDIENTE no se muestran. NO inventar puntajes.
     - Direccion en el JSON-LD y en el footer.
-    - Disponibilidad: en la tabla "Comparar las casas" cada casa tiene
-      <span class="disp">Consultar fechas</span>. Cambiar el texto y sumar
-      una clase: disp--libre (verde), disp--pocas (dorado), disp--completa.
-      Ej: <span class="disp disp--pocas">Quedan fechas en enero</span>
+    - Disponibilidad: cada tarjeta de casa tiene <span class="disp"
+      data-disp=...>; main.js la completa con los calendarios conectados.
     - Seccion de resenas (id="resenas"):
         * insignias generales: <a data-rep-badge="airbnb|booking" data-score=...>
         * bajada: <p data-rep-sub="180 estadias verificadas">
@@ -199,7 +199,7 @@
       <a href="#reservas" class="overlay-cta"><span>06</span>Reservar</a>
     </nav>
     <div class="overlay-foot">
-      <a class="overlay-wa" href="https://wa.me/59898727289?text=Hola!%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener">WhatsApp +598 98 727 289</a>
+      <a class="overlay-wa" href="https://wa.me/59898727289?text=Hola!%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener">WhatsApp +598&nbsp;98&nbsp;727&nbsp;289</a>
       <span>Punta del Diablo &middot; Rocha</span>
     </div>
   </div>
@@ -218,8 +218,8 @@
           <span class="lw"><span><em>volver a vos.</em></span></span>
         </h1>
         <p class="hero-sub">
-          Casas elegidas a mano, a minutos del mar. Una invitaci&oacute;n a hacer una
-          pausa, conectar con la naturaleza y volver a uno mismo.
+          Casas elegidas a mano, frente a la Playa de la Viuda y a pasos del pueblo.
+          Una invitaci&oacute;n a hacer una pausa, conectar con la naturaleza y volver a uno mismo.
         </p>
         <div class="hero-actions">
           <a class="btn btn--light" href="#casas">Ver las casas <span aria-hidden="true">&rarr;</span></a>
@@ -258,13 +258,13 @@
         <span class="hl-icon">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M14 24 q4.5 -3.5 9 0 t9 0 t9 0 t9 0"/><path d="M14 32 q4.5 -3.5 9 0 t9 0 t9 0 t9 0"/><path d="M14 40 q4.5 -3.5 9 0 t9 0 t9 0 t9 0"/></g></svg>
         </span>
-        <span class="hl-label">El lugar</span>
+        <span class="hl-label">C&oacute;mo llegar</span>
       </a>
       <a class="hl hl--sage" href="#zona">
         <span class="hl-icon">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 48 C 28 40 34 32 42 18"/><path d="M42 18 c-5 2 -7 7 -5 12 c5 -2 7 -7 5 -12 Z"/><path d="M36 30 c1 -5 6 -8 11 -7 c-1 5 -6 8 -11 7 Z"/><path d="M33 34 c-5 -1 -8 -6 -7 -11 c5 1 8 6 7 11 Z"/><path d="M28 41 c2 -5 7 -7 12 -5 c-2 5 -7 7 -12 5 Z"/><path d="M25 44 c-5 -1 -8 -5 -8 -10 c5 1 8 5 8 10 Z"/></g></svg>
         </span>
-        <span class="hl-label">Experiencia</span>
+        <span class="hl-label">La zona</span>
       </a>
       <a class="hl hl--sand" href="#reservas">
         <span class="hl-icon">
@@ -276,14 +276,14 @@
         <span class="hl-icon">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 33 C 20 29 28 30 35 32 C 43 34 50 31 56 29"/><path d="M33 32 C 42 36 30 41 27 45 C 24 49 23 53 23 57"/><path d="M38 33 C 45 37 36 42 34 46 C 32 50 32 54 33 57"/></g></svg>
         </span>
-        <span class="hl-label">Tips</span>
+        <span class="hl-label">Preguntas</span>
       </a>
     </nav>
 
     <section class="casas section" id="casas">
       <header class="section-head" data-reveal>
         <p class="eyebrow eyebrow--ink">01 &mdash; Las casas</p>
-        <h2 class="h2">Tres casas, tres maneras<br>de <em>escuchar</em> el mar</h2>
+        <h2 class="h2">Tres casas, tres maneras <br>de <em>escuchar</em> el mar</h2>
         <p class="section-sub">No es un catálogo: es una colección. Cada casa se elige
         una por una, se habita y se cuida antes de ser compartida.</p>
         <a class="text-link" href="#casa-ohana">Ver Ohana, frente a la Viuda <span aria-hidden="true">&rarr;</span></a>
@@ -372,7 +372,7 @@
       <div class="house-head">
         <p class="eyebrow eyebrow--ink">N&ordm; 01 &mdash; Frente a la Playa de la Viuda</p>
         <h2 class="house-title">Ohana</h2>
-        <p class="house-sub">Dos dormitorios frente a la Playa de la Viuda,<br>con jacuzzi, parrillero y estufa a le&ntilde;a.</p>
+        <p class="house-sub">Dos dormitorios frente a la Playa de la Viuda, <br>con jacuzzi, parrillero y estufa a le&ntilde;a.</p>
       </div>
 
       <div class="house-body">
@@ -505,8 +505,8 @@
               <div class="cal" data-cal="casa-ohana">
                 <p class="cal-msg">Cargando disponibilidad&hellip;</p>
               </div>
+              <a class="book-quote" href="#reservas" data-quote-house="casa-ohana">Consultar estas fechas <span aria-hidden="true">&rarr;</span></a>
             </div>
-            <a class="book-quote" href="#reservas" data-quote-house="casa-ohana">Consultar estas fechas <span aria-hidden="true">&rarr;</span></a>
 
             <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
             <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Playa%20de%20la%20Viuda%2C%20Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg> Ver la Playa de la Viuda en Google Maps</a>
@@ -520,7 +520,7 @@
       <div class="house-head">
         <p class="eyebrow eyebrow--ink">N&ordm; 02 &mdash; Frente a la Playa de la Viuda</p>
         <h2 class="house-title">Dos Amores</h2>
-        <p class="house-sub">Monoambiente para cuatro frente a la Playa de la Viuda,<br>con el cuarto dividido, parrillero y estufa a le&ntilde;a.</p>
+        <p class="house-sub">Monoambiente para cuatro frente a la Playa de la Viuda, <br>con el cuarto dividido, parrillero y estufa a le&ntilde;a.</p>
       </div>
 
       <div class="house-body">
@@ -647,8 +647,8 @@
               <div class="cal" data-cal="casa-dos-amores">
                 <p class="cal-msg">Cargando disponibilidad&hellip;</p>
               </div>
+              <a class="book-quote" href="#reservas" data-quote-house="casa-dos-amores">Consultar estas fechas <span aria-hidden="true">&rarr;</span></a>
             </div>
-            <a class="book-quote" href="#reservas" data-quote-house="casa-dos-amores">Consultar estas fechas <span aria-hidden="true">&rarr;</span></a>
 
             <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
             <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Playa%20de%20la%20Viuda%2C%20Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg> Ver la Playa de la Viuda en Google Maps</a>
@@ -662,7 +662,7 @@
       <div class="house-head">
         <p class="eyebrow eyebrow--ink">N&ordm; 03 &mdash; Cerca de la terminal</p>
         <h2 class="house-title">Solale</h2>
-        <p class="house-sub">Dos dormitorios cerca de la terminal,<br>con parrillero, estufa a le&ntilde;a y estacionamiento.</p>
+        <p class="house-sub">Dos dormitorios cerca de la terminal, <br>con parrillero, estufa a le&ntilde;a y estacionamiento.</p>
       </div>
 
       <div class="house-body">
@@ -779,8 +779,8 @@
               <div class="cal" data-cal="casa-solale">
                 <p class="cal-msg">Cargando disponibilidad&hellip;</p>
               </div>
+              <a class="book-quote" href="#reservas" data-quote-house="casa-solale">Consultar estas fechas <span aria-hidden="true">&rarr;</span></a>
             </div>
-            <a class="book-quote" href="#reservas" data-quote-house="casa-solale">Consultar estas fechas <span aria-hidden="true">&rarr;</span></a>
 
             <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
             <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Terminal%20Punta%20del%20Diablo%2C%20Rocha%2C%20Uruguay" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg> Ver la zona de la terminal en Google Maps</a>
@@ -800,7 +800,7 @@
 
       <div class="cta-inner" data-reveal>
         <p class="eyebrow">Consultar disponibilidad</p>
-        <h2 class="cta-title">La próxima marea<br>te está <em>esperando</em>.</h2>
+        <h2 class="cta-title">La próxima marea <br>te está <em>esperando</em>.</h2>
         <p class="cta-sub">
           Contanos cu&aacute;ndo ven&iacute;s y cu&aacute;ntos son: te respondemos nosotros, con la disponibilidad y el total exacto.
         </p>
@@ -836,7 +836,7 @@
             </label>
             <label class="field">
               <span class="field-label">Hu&eacute;spedes</span>
-              <input type="number" name="huespedes" id="q-huespedes" min="1" max="8" value="2" inputmode="numeric">
+              <input type="number" name="huespedes" id="q-huespedes" min="1" max="6" value="2" inputmode="numeric">
             </label>
             <label class="field field--check">
               <input type="checkbox" name="mascota" id="q-mascota">
@@ -879,7 +879,7 @@
       <div class="rep-head" data-reveal>
         <div class="rep-head-copy">
           <p class="eyebrow eyebrow--ink">02 &mdash; Rese&ntilde;as</p>
-          <h2 class="h2">Lo que cuentan quienes<br>ya <em>vivieron el mar</em></h2>
+          <h2 class="h2">Lo que cuentan quienes <br>ya <em>vivieron el mar</em></h2>
           <p class="rep-sub" data-rep-sub="102 evaluaciones en Airbnb y 20 comentarios en Booking.com entre nuestras casas." hidden></p>
         </div>
         <div class="rep-badges">
@@ -934,7 +934,7 @@
       <header class="section-head" data-reveal>
         <p class="eyebrow eyebrow--ink">03 &mdash; C&oacute;mo llegar</p>
         <h2 class="h2">Dónde nos encontrás</h2>
-        <p class="section-sub">Punta del Diablo, sobre el Atlántico de Rocha.<br>A 300 km de Montevideo por la Ruta 9.</p>
+        <p class="section-sub">Punta del Diablo, sobre el Atlántico de Rocha. <br>A 300 km de Montevideo por la Ruta 9.</p>
       </header>
 
       <div class="mapa-layout">
@@ -1097,8 +1097,8 @@
 <section class="zona section" id="zona">
       <header class="section-head centered" data-reveal>
         <p class="eyebrow eyebrow--ink">04 &mdash; La zona</p>
-        <h2 class="h2">Qu&eacute; hacer cuando<br>no est&aacute;s en la casa</h2>
-        <p class="section-sub">Rocha es m&aacute;s grande que su playa. Esto es lo que<br>recomendamos a quien viene por primera vez.</p>
+        <h2 class="h2">Qu&eacute; hacer cuando <br>no est&aacute;s en la casa</h2>
+        <p class="section-sub">Rocha es m&aacute;s grande que su playa. Esto es lo que <br>recomendamos a quien viene por primera vez.</p>
       </header>
 
       <ul class="zona-grid" data-reveal>
@@ -1133,7 +1133,7 @@
         <div class="season-body">
           <p class="eyebrow eyebrow--ink">Setiembre a noviembre <span class="season-now" data-season-now hidden>Es ahora</span></p>
           <h3 class="season-title">La temporada de las <em>ballenas</em></h3>
-          <p>Las ballenas francas pasan frente a la costa de Rocha y se ven desde la orilla. Es temporada baja: los pueblos est&aacute;n en calma, las casas se alquilan desde USD 85 la noche y alcanza con dos noches.</p>
+          <p>Las ballenas francas pasan frente a la costa de Rocha y se ven desde la orilla. Es temporada baja: los pueblos est&aacute;n en calma, las casas se alquilan desde USD 60 la noche y alcanza con dos noches.</p>
         </div>
         <div class="season-actions">
           <a class="btn btn--solid" href="#reservas">Consultar una escapada <span aria-hidden="true">&rarr;</span></a>
@@ -1145,8 +1145,8 @@
     <section class="faq section" id="faq">
       <header class="section-head centered" data-reveal>
         <p class="eyebrow eyebrow--ink">05 &mdash; Preguntas</p>
-        <h2 class="h2">Lo que todos<br>nos preguntan</h2>
-        <p class="section-sub">Y si falta alguna, escribinos: contestamos nosotros,<br>no un formulario autom&aacute;tico.</p>
+        <h2 class="h2">Lo que todos <br>nos preguntan</h2>
+        <p class="section-sub">Y si falta alguna, escribinos: contestamos nosotros, <br>no un formulario autom&aacute;tico.</p>
       </header>
 
       <div class="faq-list" data-reveal>
@@ -1216,8 +1216,8 @@
         <div class="footer-col" data-reveal data-delay="1">
           <p class="footer-h">Contacto</p>
           <ul>
-            <li><a href="https://wa.me/59898727289?text=Hola!%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener">WhatsApp +598 98 727 289</a></li>
-            <li><a href="tel:+59898727289">Llamar +598 98 727 289</a></li>
+            <li><a href="https://wa.me/59898727289?text=Hola!%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener">WhatsApp +598&nbsp;98&nbsp;727&nbsp;289</a></li>
+            <li><a href="tel:+59898727289">Llamar +598&nbsp;98&nbsp;727&nbsp;289</a></li>
             <li><span>Ruta 9, km 298</span></li>
             <li><span>Punta del Diablo, Rocha</span></li>
           </ul>
@@ -1254,6 +1254,6 @@
     <span class="fab-text">Consultar</span>
   </a>
 
-  <script src="main.js?v=45" defer></script>
+  <script src="main.js?v=46" defer></script>
 </body>
 </html>
