@@ -4121,3 +4121,36 @@ html.no-js .hero-actions {
     max-width: none;
   }
 }
+
+/* cinco casas: la ultima fila incompleta se centra en vez de dejar huecos */
+@media (min-width: 641px) and (max-width: 1179px) {
+  .casas-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .casa-card {
+    grid-column: span 2;
+  }
+
+  .casa-card:last-child:nth-child(odd) {
+    grid-column: 2 / span 2;
+  }
+}
+
+@media (min-width: 1180px) {
+  .casas-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .casa-card {
+    grid-column: span 2;
+  }
+
+  .casa-card:nth-child(3n + 1):nth-last-child(2) {
+    grid-column: 2 / span 2;
+  }
+
+  .casa-card:nth-child(3n + 1):last-child {
+    grid-column: 3 / span 2;
+  }
+}

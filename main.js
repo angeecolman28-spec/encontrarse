@@ -773,7 +773,8 @@
         if (s.checkIn < today()) s.warn.push("La fecha de llegada ya pasó.");
       }
 
-      if (s.house && s.guests > s.house.capacity) {
+      /* capacidad 0 = todavia sin cargar en la ficha: no se avisa nada */
+      if (s.house && s.house.capacity && s.guests > s.house.capacity) {
         s.warn.push(s.house.name + " recibe hasta " + s.house.capacity + " huéspedes.");
       }
       return s;
@@ -795,7 +796,7 @@
 
     function render() {
       var s = read();
-      fGuests.max = s.house ? s.house.capacity : 6;
+      fGuests.max = s.house && s.house.capacity ? s.house.capacity : 6;
 
       if (!s.noches) {
         outTotal.textContent = "Elegí las fechas y te confirmamos el total.";
@@ -811,7 +812,7 @@
           else partes.push(hayChoque(s.houseId, fIn.value, fOut.value) ? "figura ocupada" : "figura libre");
         } else {
           var candidatas = Object.keys(houses).filter(function (id) {
-            return (!s.guests || houses[id].capacity >= s.guests) && conectada(id);
+            return (!s.guests || !houses[id].capacity || houses[id].capacity >= s.guests) && conectada(id);
           });
           var libres = candidatas.filter(function (id) {
             return !hayChoque(id, fIn.value, fOut.value);

@@ -53,7 +53,9 @@ El KV ya queda vinculado por `wrangler.jsonc`: no hay que tocarlo a mano.
     }
   },
   "casa-dos-amores": { "nombre": "Dos Amores", "fuentes": {} },
-  "casa-solale": { "nombre": "Solale", "fuentes": {} }
+  "casa-solale": { "nombre": "Solale", "fuentes": {} },
+  "casa-dolce-vita": { "nombre": "La Dolce Vita", "fuentes": {} },
+  "casa-los-geckos": { "nombre": "Los Geckos", "fuentes": {} }
 }
 ```
 
