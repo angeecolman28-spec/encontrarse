@@ -805,7 +805,7 @@
 
     function render() {
       var s = read();
-      fGuests.max = s.house && s.house.capacity ? s.house.capacity : 6;
+      fGuests.max = s.house && s.house.capacity ? s.house.capacity : 8;
 
       if (!s.noches) {
         outTotal.textContent = "Elegí las fechas y te confirmamos el total.";
