@@ -29,7 +29,7 @@
     "@type": "LodgingBusiness",
     "@id": "https://encontrarse.puntadeldiablo.workers.dev/#encontrarse",
     "name": "ENCONTRARSE",
-    "description": "Cinco casas de alquiler temporario en Punta del Diablo, Rocha, Uruguay.",
+    "description": "Siete casas de alquiler temporario en Punta del Diablo, Rocha, Uruguay.",
     "url": "https://encontrarse.puntadeldiablo.workers.dev/",
     "image": "https://encontrarse.puntadeldiablo.workers.dev/assets/img/og-encontrarse.jpg",
     "telephone": "+598 98 727 289",
@@ -114,6 +114,22 @@
         "url": "https://encontrarse.puntadeldiablo.workers.dev/#casa-los-geckos",
         "description": "Cabaña de madera sobre pilotes, entre pinos, con deck, hamaca y parrillero.",
         "address": { "@type": "PostalAddress", "addressLocality": "Punta del Diablo", "addressRegion": "Rocha", "addressCountry": "UY" }
+      },
+      {
+        "@type": "House",
+        "@id": "https://encontrarse.puntadeldiablo.workers.dev/#casa-buena-vista",
+        "name": "Buena Vista",
+        "url": "https://encontrarse.puntadeldiablo.workers.dev/#casa-buena-vista",
+        "description": "Complejo de casas de dos plantas con terraza en la azotea y vista al mar, con estufa a leña y parrillero.",
+        "address": { "@type": "PostalAddress", "addressLocality": "Punta del Diablo", "addressRegion": "Rocha", "addressCountry": "UY" }
+      },
+      {
+        "@type": "House",
+        "@id": "https://encontrarse.puntadeldiablo.workers.dev/#casa-terraferma",
+        "name": "Terraferma",
+        "url": "https://encontrarse.puntadeldiablo.workers.dev/#casa-terraferma",
+        "description": "Casa de madera de dos plantas con techo de paja, entre pinos, con deck, hamacas, estufa a leña y parrillero.",
+        "address": { "@type": "PostalAddress", "addressLocality": "Punta del Diablo", "addressRegion": "Rocha", "addressCountry": "UY" }
       }
     ]
   }
@@ -124,7 +140,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Sacramento&family=Unica+One&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=48">
+  <link rel="stylesheet" href="styles.css?v=49">
 </head>
 <body>
 
@@ -299,7 +315,7 @@
     <section class="casas section" id="casas">
       <header class="section-head" data-reveal>
         <p class="eyebrow eyebrow--ink">01 &mdash; Las casas</p>
-        <h2 class="h2">Cinco casas, cinco maneras <br>de <em>escuchar</em> el mar</h2>
+        <h2 class="h2">Siete casas, siete maneras <br>de <em>escuchar</em> el mar</h2>
         <p class="section-sub">No es un catálogo: es una colección. Cada casa se elige
         una por una, se habita y se cuida antes de ser compartida.</p>
         <a class="text-link" href="#casa-ohana">Ver Ohana, frente a la Viuda <span aria-hidden="true">&rarr;</span></a>
@@ -406,6 +422,46 @@
             </div>
           </div>
         </article>
+        <article class="casa-card" data-reveal>
+          <a class="casa-card-media frame frame--media" href="#casa-buena-vista" data-house="casa-buena-vista" tabindex="-1" aria-hidden="true">
+            <img src="assets/img/casas/buenavista-1-768.jpg" srcset="assets/img/casas/buenavista-1-480.jpg 480w, assets/img/casas/buenavista-1-768.jpg 768w, assets/img/casas/buenavista-1-1024.jpg 1024w" sizes="(max-width: 640px) 92vw, (max-width: 1080px) 46vw, 30vw" alt="Buena Vista: el complejo de casas de dos plantas frente al mar" loading="lazy" decoding="async">
+            <span class="casa-card-num">N&ordm; 06</span>
+          </a>
+          <div class="casa-card-body">
+            <p class="casa-card-lugar">Punta del Diablo &middot; Frente al mar</p>
+            <h3 class="h3"><a href="#casa-buena-vista" data-house="casa-buena-vista">Buena Vista</a></h3>
+            <ul class="casa-card-datos">
+              <li>Dos plantas</li>
+              <li>Terraza en la azotea</li>
+              <li>Vista al mar</li>
+            </ul>
+            <p class="casa-card-estado"><span class="disp" data-disp="casa-buena-vista">Consultar fechas</span></p>
+            <div class="casa-card-pie">
+              <p class="casa-card-precio"><span>Tarifas</span> <strong>a consultar</strong></p>
+              <a class="btn btn--solid btn--sm" href="#casa-buena-vista" data-house="casa-buena-vista">Ver la casa <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="casa-card" data-reveal>
+          <a class="casa-card-media frame frame--media" href="#casa-terraferma" data-house="casa-terraferma" tabindex="-1" aria-hidden="true">
+            <img src="assets/img/casas/terraferma-1-768.jpg" srcset="assets/img/casas/terraferma-1-480.jpg 480w, assets/img/casas/terraferma-1-768.jpg 768w, assets/img/casas/terraferma-1-1024.jpg 1024w" sizes="(max-width: 640px) 92vw, (max-width: 1080px) 46vw, 30vw" alt="Terraferma: casa roja de madera con techo de paja y deck con hamacas" loading="lazy" decoding="async">
+            <span class="casa-card-num">N&ordm; 07</span>
+          </a>
+          <div class="casa-card-body">
+            <p class="casa-card-lugar">Punta del Diablo &middot; Entre pinos</p>
+            <h3 class="h3"><a href="#casa-terraferma" data-house="casa-terraferma">Terraferma</a></h3>
+            <ul class="casa-card-datos">
+              <li>Dos plantas</li>
+              <li>Techo de paja</li>
+              <li>Deck con hamacas</li>
+            </ul>
+            <p class="casa-card-estado"><span class="disp" data-disp="casa-terraferma">Consultar fechas</span></p>
+            <div class="casa-card-pie">
+              <p class="casa-card-precio"><span>Tarifas</span> <strong>a consultar</strong></p>
+              <a class="btn btn--solid btn--sm" href="#casa-terraferma" data-house="casa-terraferma">Ver la casa <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </article>
       </div>
 
       <p class="casas-nota">Precios por noche y por casa, de referencia. Lo que incluye cada una est&aacute; en su ficha; consultanos por s&aacute;banas y toallas. La disponibilidad se toma de Airbnb y Booking.com.</p>
@@ -422,6 +478,8 @@
           <a href="#casa-solale" data-house="casa-solale">Solale</a>
           <a href="#casa-dolce-vita" data-house="casa-dolce-vita">La Dolce Vita</a>
           <a href="#casa-los-geckos" data-house="casa-los-geckos">Los Geckos</a>
+          <a href="#casa-buena-vista" data-house="casa-buena-vista">Buena Vista</a>
+          <a href="#casa-terraferma" data-house="casa-terraferma">Terraferma</a>
         </nav>
       </div>
     </div>
@@ -1101,6 +1159,244 @@
       </div>
     </section>
 
+    <section class="house house-panel" id="casa-buena-vista" data-house="casa-buena-vista" aria-label="Buena Vista">
+      <!-- PENDIENTE: confirmar hu&eacute;spedes, dormitorios, ba&ntilde;os, ubicaci&oacute;n,
+           tarifas y mascotas. Lo de abajo sale solo de lo que se ve en las fotos. -->
+      <div class="house-head">
+        <p class="eyebrow eyebrow--ink">N&ordm; 06 &mdash; Frente al mar</p>
+        <h2 class="house-title">Buena Vista</h2>
+        <p class="house-sub">Complejo de casas de dos plantas con terraza en la azotea, <br>vista al mar, estufa a le&ntilde;a y parrillero.</p>
+      </div>
+
+      <div class="house-body">
+        <div class="gallery" data-gallery>
+          <ul class="gallery-track" data-gallery-track>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/buenavista-1-1024.jpg" srcset="assets/img/casas/buenavista-1-480.jpg 480w, assets/img/casas/buenavista-1-768.jpg 768w, assets/img/casas/buenavista-1-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Buena Vista: el complejo de casas de dos plantas frente al mar" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/buenavista-2-1024.jpg" srcset="assets/img/casas/buenavista-2-480.jpg 480w, assets/img/casas/buenavista-2-768.jpg 768w, assets/img/casas/buenavista-2-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Terraza en la azotea con vista al mar" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/buenavista-3-1024.jpg" srcset="assets/img/casas/buenavista-3-480.jpg 480w, assets/img/casas/buenavista-3-768.jpg 768w, assets/img/casas/buenavista-3-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Living comedor con mesa de madera y escalera a la planta alta" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/buenavista-4-1024.jpg" srcset="assets/img/casas/buenavista-4-480.jpg 480w, assets/img/casas/buenavista-4-768.jpg 768w, assets/img/casas/buenavista-4-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Cocina integrada al living, con salida al parrillero" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/buenavista-5-1024.jpg" srcset="assets/img/casas/buenavista-5-480.jpg 480w, assets/img/casas/buenavista-5-768.jpg 768w, assets/img/casas/buenavista-5-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Living con estufa a le&ntilde;a y TV" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/buenavista-6-1024.jpg" srcset="assets/img/casas/buenavista-6-480.jpg 480w, assets/img/casas/buenavista-6-768.jpg 768w, assets/img/casas/buenavista-6-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Dormitorio con ventanal y vista al pueblo y al mar" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/buenavista-7-1024.jpg" srcset="assets/img/casas/buenavista-7-480.jpg 480w, assets/img/casas/buenavista-7-768.jpg 768w, assets/img/casas/buenavista-7-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Escalera exterior a la azotea, con el mar al fondo" loading="lazy" decoding="async">
+              </div>
+            </li>
+          </ul>
+          <div class="gallery-nav" data-gallery-nav hidden>
+            <button type="button" class="gallery-arrow" data-dir="-1" aria-label="Foto anterior"><span aria-hidden="true">&larr;</span></button>
+            <div class="gallery-dots" aria-label="Fotos de Buena Vista"><button type="button" class="gallery-dot is-on" data-go="0"><span class="u-sr">Foto 1 de 7</span></button><button type="button" class="gallery-dot" data-go="1"><span class="u-sr">Foto 2 de 7</span></button><button type="button" class="gallery-dot" data-go="2"><span class="u-sr">Foto 3 de 7</span></button><button type="button" class="gallery-dot" data-go="3"><span class="u-sr">Foto 4 de 7</span></button><button type="button" class="gallery-dot" data-go="4"><span class="u-sr">Foto 5 de 7</span></button><button type="button" class="gallery-dot" data-go="5"><span class="u-sr">Foto 6 de 7</span></button><button type="button" class="gallery-dot" data-go="6"><span class="u-sr">Foto 7 de 7</span></button></div>
+            <button type="button" class="gallery-arrow" data-dir="1" aria-label="Foto siguiente"><span aria-hidden="true">&rarr;</span></button>
+          </div>
+        </div>
+
+        <div class="house-cols">
+          <aside class="house-side" aria-label="Datos y consulta de Buena Vista">
+          <div class="specs">
+            <div class="spec"><span class="spec-label">Plantas</span><span class="spec-value">Dos</span></div>
+            <div class="spec"><span class="spec-label">Vista</span><span class="spec-value">Al mar</span></div>
+            <div class="spec"><span class="spec-label">Azotea</span><span class="spec-value">Con terraza</span></div>
+            <div class="spec"><span class="spec-label">Estufa</span><span class="spec-value">A le&ntilde;a</span></div>
+          </div>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">La casa incluye</summary>
+            <div class="fold-body">
+              <p class="amen-beds">Dormitorio con cama doble &middot; dormitorio con dos camas</p>
+              <ul class="amen-list">
+                <li>Cocina equipada</li>
+                <li>Estufa a le&ntilde;a</li>
+                <li>Parrillero</li>
+                <li>Terraza en la azotea</li>
+                <li>TV</li>
+              </ul>
+            </div>
+          </details>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Antes de venir</summary>
+            <div class="fold-body">
+              <dl class="rules">
+                <div><dt>Entrada y salida</dt><dd>Desde las 15:00 &middot; hasta las 10:00</dd></div>
+                <div><dt>Estad&iacute;a m&iacute;nima</dt><dd>Var&iacute;a seg&uacute;n la temporada &mdash; consultanos</dd></div>
+                <div><dt>Mascotas</dt><dd data-pets>Consultanos</dd></div>
+                <div><dt>Convivencia</dt><dd>Sin fiestas &middot; silencio de 23 a 8</dd></div>
+                <div><dt>Ropa blanca</dt><dd>Consultanos por s&aacute;banas y toallas</dd></div>
+              </dl>
+            </div>
+          </details>
+          <div class="book" id="reservar-casa-buena-vista">
+            <div class="book-head">
+              <p class="book-price"><span class="book-from">Tarifas</span><strong>A consultar</strong></p>
+            </div>
+
+            <div class="book-actions">
+              <a class="btn btn--wa" href="https://wa.me/59898727289?text=Hola%21%20Me%20interesa%20Buena%20Vista%20en%20Punta%20del%20Diablo.%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Consultar por WhatsApp</a>
+            </div>
+
+            <div class="rep-row" data-rep-row hidden>
+              <a class="rep-chip rep-chip--airbnb" data-rep="airbnb" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
+              <a class="rep-chip rep-chip--booking" data-rep="booking" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
+            </div>
+            <div class="book-cal">
+              <h4 class="book-cal-h">Fechas ocupadas</h4>
+              <div class="cal" data-cal="casa-buena-vista">
+                <p class="cal-msg">Cargando disponibilidad&hellip;</p>
+              </div>
+              <a class="book-quote" href="#reservas" data-quote-house="casa-buena-vista">Consultar estas fechas <span aria-hidden="true">&rarr;</span></a>
+            </div>
+
+            <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
+          </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="house house-panel" id="casa-terraferma" data-house="casa-terraferma" aria-label="Terraferma">
+      <!-- PENDIENTE: confirmar hu&eacute;spedes, dormitorios, ba&ntilde;os, ubicaci&oacute;n,
+           tarifas y mascotas. Lo de abajo sale solo de lo que se ve en las fotos. -->
+      <div class="house-head">
+        <p class="eyebrow eyebrow--ink">N&ordm; 07 &mdash; Entre pinos</p>
+        <h2 class="house-title">Terraferma</h2>
+        <p class="house-sub">Casa de madera de dos plantas con techo de paja, <br>deck con hamacas, estufa a le&ntilde;a y parrillero.</p>
+      </div>
+
+      <div class="house-body">
+        <div class="gallery" data-gallery>
+          <ul class="gallery-track" data-gallery-track>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/terraferma-1-1024.jpg" srcset="assets/img/casas/terraferma-1-480.jpg 480w, assets/img/casas/terraferma-1-768.jpg 768w, assets/img/casas/terraferma-1-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Terraferma: casa roja de madera con techo de paja y deck con hamacas" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/terraferma-2-1024.jpg" srcset="assets/img/casas/terraferma-2-480.jpg 480w, assets/img/casas/terraferma-2-768.jpg 768w, assets/img/casas/terraferma-2-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="La casa entre pinos y lavanda, con el cartel de Terraferma" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/terraferma-3-1024.jpg" srcset="assets/img/casas/terraferma-3-480.jpg 480w, assets/img/casas/terraferma-3-768.jpg 768w, assets/img/casas/terraferma-3-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Deck con hamaca paraguaya entre los pinos" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/terraferma-4-1024.jpg" srcset="assets/img/casas/terraferma-4-480.jpg 480w, assets/img/casas/terraferma-4-768.jpg 768w, assets/img/casas/terraferma-4-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Living comedor con sill&oacute;n, mesa para seis y estufa a le&ntilde;a" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/terraferma-5-1024.jpg" srcset="assets/img/casas/terraferma-5-480.jpg 480w, assets/img/casas/terraferma-5-768.jpg 768w, assets/img/casas/terraferma-5-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Cocina con barra y escalera de madera a la planta alta" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/terraferma-6-1024.jpg" srcset="assets/img/casas/terraferma-6-480.jpg 480w, assets/img/casas/terraferma-6-768.jpg 768w, assets/img/casas/terraferma-6-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Dormitorio con cama doble y cuadros de plantas" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/terraferma-7-1024.jpg" srcset="assets/img/casas/terraferma-7-480.jpg 480w, assets/img/casas/terraferma-7-768.jpg 768w, assets/img/casas/terraferma-7-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Dormitorio con dos camas y salida al deck" loading="lazy" decoding="async">
+              </div>
+            </li>
+            <li class="gallery-item">
+              <div class="frame frame--media">
+                <img src="assets/img/casas/terraferma-8-1024.jpg" srcset="assets/img/casas/terraferma-8-480.jpg 480w, assets/img/casas/terraferma-8-768.jpg 768w, assets/img/casas/terraferma-8-1024.jpg 1024w" sizes="(max-width: 920px) 86vw, (max-width: 1420px) 42vw, 600px" alt="Jard&iacute;n con pinos, parrillero y mesa al aire libre" loading="lazy" decoding="async">
+              </div>
+            </li>
+          </ul>
+          <div class="gallery-nav" data-gallery-nav hidden>
+            <button type="button" class="gallery-arrow" data-dir="-1" aria-label="Foto anterior"><span aria-hidden="true">&larr;</span></button>
+            <div class="gallery-dots" aria-label="Fotos de Terraferma"><button type="button" class="gallery-dot is-on" data-go="0"><span class="u-sr">Foto 1 de 8</span></button><button type="button" class="gallery-dot" data-go="1"><span class="u-sr">Foto 2 de 8</span></button><button type="button" class="gallery-dot" data-go="2"><span class="u-sr">Foto 3 de 8</span></button><button type="button" class="gallery-dot" data-go="3"><span class="u-sr">Foto 4 de 8</span></button><button type="button" class="gallery-dot" data-go="4"><span class="u-sr">Foto 5 de 8</span></button><button type="button" class="gallery-dot" data-go="5"><span class="u-sr">Foto 6 de 8</span></button><button type="button" class="gallery-dot" data-go="6"><span class="u-sr">Foto 7 de 8</span></button><button type="button" class="gallery-dot" data-go="7"><span class="u-sr">Foto 8 de 8</span></button></div>
+            <button type="button" class="gallery-arrow" data-dir="1" aria-label="Foto siguiente"><span aria-hidden="true">&rarr;</span></button>
+          </div>
+        </div>
+
+        <div class="house-cols">
+          <aside class="house-side" aria-label="Datos y consulta de Terraferma">
+          <div class="specs">
+            <div class="spec"><span class="spec-label">Plantas</span><span class="spec-value">Dos</span></div>
+            <div class="spec"><span class="spec-label">Techo</span><span class="spec-value">De paja</span></div>
+            <div class="spec"><span class="spec-label">Deck</span><span class="spec-value">Con hamacas</span></div>
+            <div class="spec"><span class="spec-label">Parrillero</span><span class="spec-value">S&iacute;</span></div>
+          </div>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">La casa incluye</summary>
+            <div class="fold-body">
+              <p class="amen-beds">Dormitorio con cama doble &middot; dormitorio con dos camas</p>
+              <ul class="amen-list">
+                <li>Cocina equipada</li>
+                <li>Estufa a le&ntilde;a</li>
+                <li>Parrillero</li>
+                <li>Horno de barro</li>
+                <li>Deck con hamacas</li>
+                <li>Jard&iacute;n</li>
+              </ul>
+            </div>
+          </details>
+          <details class="side-box fold">
+            <summary class="side-h fold-sum">Antes de venir</summary>
+            <div class="fold-body">
+              <dl class="rules">
+                <div><dt>Entrada y salida</dt><dd>Desde las 15:00 &middot; hasta las 10:00</dd></div>
+                <div><dt>Estad&iacute;a m&iacute;nima</dt><dd>Var&iacute;a seg&uacute;n la temporada &mdash; consultanos</dd></div>
+                <div><dt>Mascotas</dt><dd data-pets>Consultanos</dd></div>
+                <div><dt>Convivencia</dt><dd>Sin fiestas &middot; silencio de 23 a 8</dd></div>
+                <div><dt>Ropa blanca</dt><dd>Consultanos por s&aacute;banas y toallas</dd></div>
+              </dl>
+            </div>
+          </details>
+          <div class="book" id="reservar-casa-terraferma">
+            <div class="book-head">
+              <p class="book-price"><span class="book-from">Tarifas</span><strong>A consultar</strong></p>
+            </div>
+
+            <div class="book-actions">
+              <a class="btn btn--wa" href="https://wa.me/59898727289?text=Hola%21%20Me%20interesa%20Terraferma%20en%20Punta%20del%20Diablo.%20Quisiera%20consultar%20disponibilidad." target="_blank" rel="noopener"><svg class="i-wa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.04-.98.22-3.3-.69-2.78-1.1-4.54-3.95-4.68-4.13-.13-.18-1.12-1.49-1.12-2.84 0-1.35.71-2.01.96-2.29.25-.28.54-.35.72-.35.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.49-.09.18-.14.29-.28.45-.14.16-.29.35-.42.47-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.18-.28.36-.23.61-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.66-.17 1.33Z"/></svg> Consultar por WhatsApp</a>
+            </div>
+
+            <div class="rep-row" data-rep-row hidden>
+              <a class="rep-chip rep-chip--airbnb" data-rep="airbnb" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
+              <a class="rep-chip rep-chip--booking" data-rep="booking" data-score="PENDIENTE" data-url="PENDIENTE" target="_blank" rel="noopener"></a>
+            </div>
+            <div class="book-cal">
+              <h4 class="book-cal-h">Fechas ocupadas</h4>
+              <div class="cal" data-cal="casa-terraferma">
+                <p class="cal-msg">Cargando disponibilidad&hellip;</p>
+              </div>
+              <a class="book-quote" href="#reservas" data-quote-house="casa-terraferma">Consultar estas fechas <span aria-hidden="true">&rarr;</span></a>
+            </div>
+
+            <p class="book-note">No se reserva desde la web: escribinos y coordinamos fechas, total exacto y forma de pago por el medio que prefieras.</p>
+          </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
     </div>
 
     <section class="cta cta--compact" id="reservas">
@@ -1137,6 +1433,8 @@
                 <option value="casa-solale">Solale &middot; cerca de la terminal</option>
                 <option value="casa-dolce-vita">La Dolce Vita &middot; con vista al mar</option>
                 <option value="casa-los-geckos">Los Geckos &middot; entre pinos</option>
+                <option value="casa-buena-vista">Buena Vista &middot; frente al mar</option>
+                <option value="casa-terraferma">Terraferma &middot; entre pinos</option>
               </select>
             </label>
             <label class="field">
@@ -1489,7 +1787,7 @@
         </details>
         <details class="faq-item">
           <summary>&iquest;Hay se&ntilde;al de celular e internet?<span class="faq-mark" aria-hidden="true"></span></summary>
-          <div class="faq-body"><p>S&iacute;, hay se&ntilde;al de las tres compa&ntilde;&iacute;as. Ohana, Dos Amores y Solale tienen wifi; en La Dolce Vita y Los Geckos te lo confirmamos al consultar. En d&iacute;as de temporal la conexi&oacute;n puede ponerse lenta: es la costa.</p></div>
+          <div class="faq-body"><p>S&iacute;, hay se&ntilde;al de las tres compa&ntilde;&iacute;as. Ohana, Dos Amores y Solale tienen wifi; en las dem&aacute;s te lo confirmamos al consultar. En d&iacute;as de temporal la conexi&oacute;n puede ponerse lenta: es la costa.</p></div>
         </details>
         <details class="faq-item">
           <summary>&iquest;Cu&aacute;l es la estad&iacute;a m&iacute;nima?<span class="faq-mark" aria-hidden="true"></span></summary>
@@ -1567,6 +1865,6 @@
     <span class="fab-text">Consultar</span>
   </a>
 
-  <script src="main.js?v=47" defer></script>
+  <script src="main.js?v=48" defer></script>
 </body>
 </html>

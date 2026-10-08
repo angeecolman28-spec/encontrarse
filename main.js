@@ -372,7 +372,16 @@
       if (on) activatePanel(panel);
     });
     switchLinks.forEach(function (a) {
-      a.classList.toggle("is-on", a.getAttribute("data-house") === id);
+      var on = a.getAttribute("data-house") === id;
+      a.classList.toggle("is-on", on);
+      /* con siete casas la barra se desliza en el celular: la pestaña
+         activa se centra (solo en horizontal, sin mover la pagina) */
+      if (on && a.parentNode.scrollWidth > a.parentNode.clientWidth) {
+        var nav = a.parentNode;
+        var rNav = nav.getBoundingClientRect();
+        var rA = a.getBoundingClientRect();
+        nav.scrollLeft += rA.left - rNav.left - (rNav.width - rA.width) / 2;
+      }
     });
     return true;
   }
