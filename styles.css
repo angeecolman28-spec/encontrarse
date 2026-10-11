@@ -4154,3 +4154,8 @@ html.no-js .hero-actions {
     grid-column: 3 / span 2;
   }
 }
+
+/* una sola foto (Solale, por ahora): centrada en vez de pegada a la izquierda */
+.gallery--single .gallery-track {
+  justify-content: center;
+}
