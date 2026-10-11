@@ -3566,6 +3566,7 @@ html.no-js .hero-actions {
 
 .rep-badge {
   display: flex;
+  cursor: default;
   align-items: center;
   gap: 0.7rem;
   padding: 0.75rem 1.1rem;
@@ -3573,11 +3574,6 @@ html.no-js .hero-actions {
   border-radius: 14px;
   background: var(--paper);
   transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
-}
-
-.rep-badge:hover {
-  border-color: var(--line);
-  transform: translateY(-2px);
 }
 
 .rep-badge .rep-score {
@@ -4057,13 +4053,6 @@ html.no-js .hero-actions {
   flex: 1;
 }
 
-/* cinco recomendaciones en grilla de 2 o 3: la ultima completa la fila
-   en vez de dejar una celda vacia */
-@media (min-width: 641px) {
-  .zona-item:last-child {
-    grid-column: span 2;
-  }
-}
 
 /* los cortes de linea pensados para escritorio dejaban palabras sueltas
    ("Esto es lo / que / recomendamos") en el celular */

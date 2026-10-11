@@ -540,34 +540,28 @@
 
   function armarChip(el) {
     var score = (el.getAttribute("data-score") || "").trim();
-    var url = (el.getAttribute("data-url") || "").trim();
     var hayScore = score && score !== PENDING;
-    var hayUrl = url && url !== PENDING;
-    /* con puntaje o con enlace alcanza: sin ninguno de los dos no se muestra */
-    if (!hayScore && !hayUrl) return false;
+    /* solo el puntaje: no se enlaza a Airbnb ni a Booking, toda consulta
+       va por WhatsApp. Sin puntaje no se muestra. */
+    if (!hayScore) return false;
 
     var partes = score.split("|");
     var fuente = el.getAttribute("data-rep") || el.getAttribute("data-rep-badge") || "";
 
     el.textContent = "";
-    if (hayScore) {
-      var puntaje = document.createElement("span");
-      puntaje.className = "rep-score";
-      puntaje.textContent = partes[0].trim();
-      el.appendChild(puntaje);
-    }
+    var puntaje = document.createElement("span");
+    puntaje.className = "rep-score";
+    puntaje.textContent = partes[0].trim();
+    el.appendChild(puntaje);
 
     var detalle = document.createElement("span");
     detalle.className = "rep-detalle";
-    detalle.textContent = hayScore ? textoResenas(partes[1], fuente) : "Ver en " + (NOMBRE_PLATAFORMA[fuente] || fuente);
+    detalle.textContent = textoResenas(partes[1], fuente);
     el.appendChild(detalle);
 
-    if (hayUrl) {
-      el.setAttribute("href", url);
-    } else if (el.tagName === "A") {
-      el.removeAttribute("target");
-      el.classList.add("rep-chip--sinlink");
-    }
+    el.removeAttribute("href");
+    el.removeAttribute("target");
+    el.classList.add("rep-chip--sinlink");
     el.hidden = false;
     return true;
   }
