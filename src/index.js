@@ -15,6 +15,12 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
+    /* www.encontrarsepdd.com -> encontrarsepdd.com: una sola direccion */
+    if (url.hostname === "www.encontrarsepdd.com") {
+      url.hostname = "encontrarsepdd.com";
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (url.pathname === "/api/disponibilidad") {
       return disponibilidad(env);
     }
