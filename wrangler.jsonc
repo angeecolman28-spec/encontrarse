@@ -9,7 +9,10 @@
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // el Worker ve cada visita primero: asi puede mandar www al dominio
+    // sin www (si no, los archivos se sirven sin pasar por src/index.js)
+    "run_worker_first": true
   },
 
   // Almacen de la disponibilidad (no es un dato secreto: identifica el KV)
