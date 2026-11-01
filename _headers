@@ -9,6 +9,14 @@
 /main.js
   Cache-Control: public, max-age=0, must-revalidate
 
+# fotos y logos: un dia en el navegador; si una foto cambia con el mismo
+# nombre, como mucho se ve la vieja hasta el dia siguiente
+/assets/img/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/assets/brand/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
 # Content-Security-Policy: solo se permite lo que el sitio usa de verdad.
 #  - script-src: main.js y el unico script en linea (el que cambia no-js por js).
 #    Si se edita ese script, hay que recalcular su hash sha256 o el sitio pierde
